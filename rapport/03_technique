@@ -8,4 +8,11 @@ TODO : Mettre PROSPECT/CONTACT avec liens entre eux (utiliser SSMS pour avoir un
 
 ## Environnement technique
 
-TODO : outils utilisés
+TODO : outils utilisés, nommage des fichiers dans z/OS
+
+C = Copy
+B = Batch
+P = Physique
+M = Métier
+L = Logique
+D = Données
