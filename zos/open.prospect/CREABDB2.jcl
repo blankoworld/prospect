@@ -72,10 +72,10 @@
        PRENOM     CHAR(35),
        TEL        CHAR(10),
        MEL        CHAR(80),
-       COMMENTAIRE
+       NOTE       CHAR(80),
        PID        CHAR(6) NOT NULL,
        CONSTRAINT FK_PROSPECT_ID
-          FOREIGN KEY(CID)
+          FOREIGN KEY(PID)
           REFERENCES PROSPECT(ID)
           ON DELETE RESTRICT,
        PRIMARY KEY(ID))
