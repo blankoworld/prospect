@@ -1,0 +1,28 @@
+# Mission
+
+## Contexte
+
+De par son expertise, la Société Open connaît les enjeux et les contraintes au sein même du milieu bancaire en Alsace.\
+Diverses problématiques ressurgissent fréquemment à ce sujet. Comme la propagation des données de mise à jour d'une base référentielle.\
+Par exemple la mise à jour des données clients.
+
+La Société Open met en place des scénarios similaires afin de permettre à ses nouveaux collaborateurs de prendre rapidement le pli et d'être efficaces sur le terrain.
+
+## Le projet
+
+Mélusine est une entreprise de vente charge son pôle commercial de faire du prospect.\
+Chaque jour les salariés mettent à jour la base de prospect avec les dernières informations recueillies.\
+La mise à jour de la base principale vis-à-vis de la quantité d'informations pose en effet des problèmes de connexions concurrentes.\
+Mais pas seulement. Il y a aussi des temps de traitement de plus en plus longs et la qualité de l'information se désagrège au fil du temps.
+Mélusine souhaite désormais fonctionner en 2 étapes : 
+
+  * utiliser un fichier de prospect pendant la journée avec les mises à jour de la base prospect
+  * mettre à jour la base de données principale pendant la nuit afin qu'elle soit prête pour ses salariés au lendemain
+
+Notre travail consiste donc à mettre au point la solution énoncée.
+
+## TODO : la suite
+
+  * acteurs du projet
+  * délais
+  * plan du projet
