@@ -1,3 +1,4 @@
+
 # Spécifications techniques
 
 TODO : quelques phrases pour décrire le plan et ce dont nous parlerons
@@ -10,9 +11,9 @@ TODO : Mettre PROSPECT/CONTACT avec liens entre eux (utiliser SSMS pour avoir un
 
 TODO : outils utilisés, nommage des fichiers dans z/OS
 
-C = Copy
-B = Batch
-P = Physique
-M = Métier
-L = Logique
-D = Données
+  * C = Copy
+  * B = Batch
+  * P = Physique
+  * M = Métier
+  * L = Logique
+  * D = Données
