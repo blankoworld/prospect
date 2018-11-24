@@ -6,7 +6,7 @@ content.md: 00_garde 01_entreprise 02_sujet 03_technique
 	cat 00_garde newpage 01_entreprise newpage 02_sujet newpage 03_technique > content.md
 
 pdf: content.md
-	pandoc --template=default.latex --toc -V toc-title:'Sommaire' --from=markdown --to=latex -o "${NAME}.pdf" content.md
+	pandoc --template=default.latex --toc -V toc-title:'Sommaire' -V papersize:a4 --from=markdown --to=latex -o "${NAME}.pdf" content.md
 
 html: content.md
 	pandoc --from=markdown --to=html -o "${NAME}.html" content.md
