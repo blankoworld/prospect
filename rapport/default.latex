@@ -363,6 +363,7 @@ $include-before$
 
 $endfor$
 $if(toc)$
+\newpage
 $if(toc-title)$
 \renewcommand*\contentsname{$toc-title$}
 $endif$
