@@ -13,7 +13,6 @@
        DATA DIVISION.
        WORKING-STORAGE SECTION.
        77 lecture-eot PIC 9 VALUE 0.
-       77 nom PIC X(35).
            EXEC SQL
              INCLUDE SQLCA
            END-EXEC.
@@ -25,17 +24,18 @@
            PERFORM LECTURE-INIT.
            PERFORM LECTURE-TRT UNTIL lecture-eot = 1.
            PERFORM LECTURE-FIN.
-           GOBACK.
+           STOP RUN.
        LECTURE-INIT.
            MOVE 0 TO lecture-eot.
        LECTURE-TRT.
            DISPLAY 'CP - Lecture: ' WITH NO ADVANCING.
            EXEC SQL
              SELECT NOM
-             INTO :nom
+               INTO :prospect.nom
              FROM TRAIN04.PROSPECT
            END-EXEC.
-           DISPLAY nom.
+           DISPLAY nom of prospect.
+           MOVE 1 to lecture-eot.
        LECTURE-FIN.
            CONTINUE.
        END PROGRAM PROSPSEL.
