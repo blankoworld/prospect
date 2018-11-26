@@ -11,14 +11,6 @@
        SOURCE-COMPUTER. ZIA.
        OBJECT-COMPUTER. VIRTEL.
        DATA DIVISION.
-       LINKAGE SECTION.
-      *   Code retour du programme appelant
-       77 code-retour       PIC X(2).
-      *   Parametres envoyes par le programme appelant
-       01 parametres.
-      *       Fonction appelee
-           05 parametres-fx PIC X(5).
-
        WORKING-STORAGE SECTION.
        77 lecture-eot       PIC  9 VALUE 0.
            EXEC SQL
@@ -27,6 +19,13 @@
            EXEC SQL
              INCLUDE PROSCPRO
            END-EXEC.
+       LINKAGE SECTION.
+      *   Code retour du programme appelant
+       77 code-retour       PIC X(2).
+      *   Parametres envoyes par le programme appelant
+       01 parametres.
+      *       Fonction appelee
+           05 parametres-fx PIC X(5).
        PROCEDURE DIVISION using parametres code-retour.
        DEBUT.
            DISPLAY 'CP - Parametres: ' parametres-fx.

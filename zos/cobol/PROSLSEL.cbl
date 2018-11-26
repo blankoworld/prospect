@@ -3,7 +3,7 @@
       *                   --------------------------
       *****************************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.      PROSBSEL.
+       PROGRAM-ID.      PROSLSEL.
        AUTHOR.          Olivier DOSSMANN.
        DATE-WRITTEN.    20181126.
 
@@ -13,6 +13,7 @@
        OBJECT-COMPUTER. VIRTEL.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
       *   Couche physique
        01 w-parametres.
       *        Fonction choisie
@@ -24,4 +25,4 @@
       *    Envoi d'une demande de SELECT a la couche physique
            MOVE 'SELECT'   TO    w-parametres-fx.
            CALL 'PROSPSEL' USING w-parametres.
-       END PROGRAM PROSPBSEL.
+       END PROGRAM PROSLSEL.
