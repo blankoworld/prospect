@@ -24,5 +24,5 @@
        DEBUT.
       *    Envoi d'une demande de SELECT a la couche physique
            MOVE 'SELECT'   TO    w-parametres-fx.
-           CALL 'PROSPSEL' USING w-parametres.
+           CALL 'PROSPSEL' USING w-parametres w-rc.
        END PROGRAM PROSLSEL.

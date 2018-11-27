@@ -2,7 +2,7 @@
       * Couche physique (acces aux donnees)
       *****************************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.      PROSPSEL INITAL.
+       PROGRAM-ID.      PROSPSEL.
        AUTHOR.          Olivier DOSSMANN.
        DATE-WRITTEN.    20181122.
       
@@ -25,7 +25,7 @@
       *   Parametres envoyes par le programme appelant
        01 parametres.
       *       Fonction appelee
-           05 parametres-fx PIC X(5).
+           05 parametres-fx PIC X(6).
        PROCEDURE DIVISION using parametres code-retour.
        DEBUT.
            DISPLAY 'CP - Parametres: ' parametres-fx.
