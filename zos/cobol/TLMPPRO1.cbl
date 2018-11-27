@@ -1,5 +1,6 @@
       *****************************************************************
-      * Couche physique (acces aux donnees)
+      *                  C O U C H E  P H Y S I Q U E
+      *                  ----------------------------
       *****************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID.      PROSPSEL.
@@ -17,32 +18,28 @@
              INCLUDE SQLCA
            END-EXEC.
            EXEC SQL
-             INCLUDE PROSCPRO
+             INCLUDE DCLPRO
            END-EXEC.
        LINKAGE SECTION.
-      *   Code retour du programme appelant
-       77 code-retour       PIC X(2).
-      *   Parametres envoyes par le programme appelant
-       01 parametres.
-      *       Fonction appelee
-           05 parametres-fx PIC X(6).
-       PROCEDURE DIVISION using parametres code-retour.
+       COPY TLMCPIL.
+       PROCEDURE DIVISION using tlmcpil.
        DEBUT.
-           DISPLAY 'CP - Parametres: ' parametres-fx.
+           DISPLAY 'CP - Parametres: ' tlmcpil-fct.
            PERFORM LECTURE-INIT.
            PERFORM LECTURE-TRT      UNTIL lecture-eot = 1.
            PERFORM LECTURE-FIN.
-           STOP RUN.
+           GOBACK.
        LECTURE-INIT.
            MOVE 0 TO lecture-eot.
        LECTURE-TRT.
            DISPLAY 'CP - Lecture: ' WITH NO ADVANCING.
            EXEC SQL
              SELECT NOM
-               INTO :prospect.nom
-             FROM TRAIN04.PROSPECT
+               INTO :tlmpro-nom
+             FROM TRAIN04.TLMPRO
            END-EXEC.
-           DISPLAY nom of prospect.
+           DISPLAY tlmpro-nom.
+           MOVE tlmpro-nom TO tlmcpil-msg.
            MOVE 1 to lecture-eot.
        LECTURE-FIN.
            CONTINUE.
