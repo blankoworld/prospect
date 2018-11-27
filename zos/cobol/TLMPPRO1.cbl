@@ -13,34 +13,90 @@
        OBJECT-COMPUTER. VIRTEL.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-       77 lecture-eot       PIC  9 VALUE 0.
+      *    Infos concernant la connexion à la BDD
            EXEC SQL
              INCLUDE SQLCA
            END-EXEC.
+      *    Clause COPY generee par DCLGEN pour table TLMPRO (prospect)
            EXEC SQL
              INCLUDE DCLPRO
            END-EXEC.
        LINKAGE SECTION.
-       COPY TLMCPIL.
-       PROCEDURE DIVISION using tlmcpil.
+      *    Clause COPY pour structure d'echange prog. <-> sous-prog.
+           COPY TLMCPIL.
+      *    Clause COPY pour echange prog./ss-prog. avec donnees
+           COPY TLMCPRO1 REPLACING ==:PROG:== BY ==PGM1==.
+       PROCEDURE DIVISION using tlmcpil pgm1.
        DEBUT.
-           DISPLAY 'CP - Parametres: ' tlmcpil-fct.
-           PERFORM LECTURE-INIT.
-           PERFORM LECTURE-TRT      UNTIL lecture-eot = 1.
-           PERFORM LECTURE-FIN.
+           PERFORM INIT.
+           PERFORM TRAITEMENT.
+           PERFORM FIN.
            GOBACK.
-       LECTURE-INIT.
-           MOVE 0 TO lecture-eot.
-       LECTURE-TRT.
-           DISPLAY 'CP - Lecture: ' WITH NO ADVANCING.
-           EXEC SQL
-             SELECT NOM
-               INTO :tlmpro-nom
-             FROM TRAIN04.TLMPRO
-           END-EXEC.
-           DISPLAY tlmpro-nom.
-           MOVE tlmpro-nom TO tlmcpil-msg.
-           MOVE 1 to lecture-eot.
-       LECTURE-FIN.
+
+       INIT.
+           DISPLAY 'CP - Traitement : ' tlmcpil-fct
+           MOVE SPACES TO pgm1-sortie
+           .
+
+       TRAITEMENT.
+      *    Lecture fonction pour lancement
+           EVALUATE tlmcpil-fct
+             WHEN 'SELECT'          PERFORM LECTURE
+             WHEN 'UPDATE'          PERFORM MAJ
+             WHEN 'DELETE'          PERFORM SUPPRESSION
+             WHEN 'ADD   ' OR 'ADD' PERFORM AJOUT
+           END-EVALUATE
+           .
+
+       LECTURE.
+           DISPLAY 'CP, Lecture'
+           MOVE tlmcpil-id TO pgm1-ent-lec-id
+           IF pgm1-ent-lec-id NOT = SPACES THEN
+      *      Lecture de l'enregistrement
+             EXEC SQL
+               SELECT NOM
+                 INTO :tlmcpil-nom
+                 FROM TRAIN04.TLMPRO
+             END-EXEC.
+      *      Verification SQLCODE
+           PERFORM VER-SQL-CODE
+           ELSE
+             MOVE '01' TO tlmcpil-rc
+             MOVE 'CP, Lecture: ID prospect non renseigne!' TO
+               tlmcpil-msg
+           END-IF
+           .
+
+       MAJ.
            CONTINUE.
+
+       SUPPRESSION.
+           CONTINUE.
+
+       AJOUT.
+           CONTINUE.
+
+       FIN.
+           CONTINUE.
+
+       VER-SQL-CODE.
+           EVALUATE sqlcode
+             WHEN 0
+               MOVE '00' TO tlmcpil-rc
+               MOVE 'CP, Requete terminee avec succes.' TO tlmcpil-msg
+             WHEN 100
+               MOVE '10' TO tlmcpil-rc
+               MOVE 'CP, Ligne non trouvee ou fin du curseur' TO
+               tlmcpil-msg
+             WHEN OTHER
+               MOVE '99' TO tlmcpil-rc
+               STRING
+                 'CP, Erreur inconnue: <'
+                 sqlcode
+                 '>'
+                 INTO tlmcpil-msg
+               END-STRING
+           END-EVALUATE
+           .
+
        END PROGRAM PROSPSEL.
