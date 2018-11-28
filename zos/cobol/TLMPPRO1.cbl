@@ -80,14 +80,38 @@
              END-IF
            ELSE
              MOVE '01' TO tlmcpil-rc
-             MOVE 'CP, Lecture: ID prospect non renseigne.'
+             MOVE 'PHY-LEC: code prospect vide.'
                TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
 
        MAJ.
-           CONTINUE.
+           DISPLAY 'PHY-MAJ'                     WITH NO ADVANCING
+           MOVE cppro1-ent-maj-id                TO tlmpro-id
+           IF cppro1-ent-maj-id NOT = SPACES THEN
+             DISPLAY ' <' tlmpro-id '>'
+             MOVE cppro1-ent-maj-nom             TO tlmpro-nom
+             MOVE cppro1-ent-maj-rue             TO tlmpro-addr-rue
+             MOVE cppro1-ent-maj-cp              TO tlmpro-addr-cp
+             MOVE cppro1-ent-maj-ville           TO tlmpro-addr-ville
+             EXEC SQL
+               UPDATE TRAIN04.TLMPRO
+               SET
+                 NOM        = :tlmpro-nom,
+                 ADDR_RUE   = :tlmpro-addr-rue,
+                 ADDR_CP    = :tlmpro-addr-cp,
+                 ADDR_VILLE = :tlmpro-addr-ville
+               WHERE
+                 ID         = :tlmpro-id
+             END-EXEC
+             PERFORM VERIF-SQLCODE
+           ELSE
+             MOVE '01'                           TO tlmcpil-rc
+             MOVE 'PHY-MAJ: code prospect vide.' TO tlmcpil-msg
+             DISPLAY ' None'
+           END-IF
+           .
 
        SUPPRESSION.
            DISPLAY 'PHY-SUP' WITH NO ADVANCING

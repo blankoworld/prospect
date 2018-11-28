@@ -28,6 +28,22 @@
       *       Remplissage du reste de la chaine
            10 FILLER               PIC  X(394).
       *****************************************************************
+      *         Donnees pour une MODIFICATION TMLPRO (PROSPECT)
+      *****************************************************************
+        05 :PROG:-ENT-MAJ REDEFINES :PROG:-ENT.
+      *       Identifiant
+           10 :PROG:-ENT-MAJ-ID    PIC  X(6).
+      *       Nom
+           10 :PROG:-ENT-MAJ-NOM   PIC  X(35).
+      *       Rue
+           10 :PROG:-ENT-MAJ-RUE   PIC  X(40).
+      *       Code postal
+           10 :PROG:-ENT-MAJ-CP    PIC  X(5).
+      *       Ville
+           10 :PROG:-ENT-MAJ-VILLE PIC  X(35).
+      *       Remplissage du reste de la chaine
+           10 FILLER               PIC  X(279).
+      *****************************************************************
       *     Donnees en sortie
       *****************************************************************
         05 :PROG:-SOR              PIC X(400).
