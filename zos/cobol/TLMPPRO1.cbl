@@ -21,11 +21,12 @@
            EXEC SQL
              INCLUDE DCLPRO
            END-EXEC.
+       77 SQLCODE-TXT     PIC S9(3).
        LINKAGE SECTION.
       *    Clause COPY pour structure d'echange prog. <-> sous-prog.
            COPY TLMCPIL.
       *    Clause COPY pour echange prog./ss-prog. avec donnees
-           COPY TLMCPRO1 REPLACING ==:PROG:== BY ==CPPRO1==.
+           COPY TLMCPRO1 REPLACING ==:PROG:== BY ==cppro1==.
        PROCEDURE DIVISION using tlmcpil cppro1.
        DEBUT.
            PERFORM INIT.
@@ -35,7 +36,7 @@
 
        INIT.
            DISPLAY 'CP - Traitement : ' tlmcpil-fct
-           MOVE SPACES TO cppro1-sortie
+           MOVE SPACES TO cppro1-sor
            .
 
        TRAITEMENT.
@@ -44,22 +45,24 @@
              WHEN 'SELECT'          PERFORM LECTURE
              WHEN 'UPDATE'          PERFORM MAJ
              WHEN 'DELETE'          PERFORM SUPPRESSION
-             WHEN 'ADD   ' OR 'ADD' PERFORM AJOUT
+             WHEN 'ADD'             PERFORM AJOUT
            END-EVALUATE
            .
 
        LECTURE.
            DISPLAY 'CP, Lecture'
-           MOVE tlmcpil-id TO cppro1-ent-lec-id
+           MOVE cppro1-ent-lec-id TO tlmpro-id
            IF cppro1-ent-lec-id NOT = SPACES THEN
       *      Lecture de l'enregistrement
              EXEC SQL
                SELECT NOM
-                 INTO :tlmcpil-nom
+                 INTO :tlmpro-nom
                  FROM TRAIN04.TLMPRO
-             END-EXEC.
+                 WHERE ID=:tlmpro-id
+             END-EXEC
       *      Verification SQLCODE
              PERFORM VERIF-SQLCODE
+             MOVE tlmpro-nom TO cppro1-sor-lec-nom
            ELSE
              MOVE '01' TO tlmcpil-rc
              MOVE 'CP, Lecture: ID prospect non renseigne!' TO
@@ -82,18 +85,20 @@
        VERIF-SQLCODE.
            EVALUATE sqlcode
              WHEN 0
-               MOVE '00' TO tlmcpil-rc
+               MOVE '00'    TO tlmcpil-rc
                MOVE 'CP, Requete terminee avec succes.' TO tlmcpil-msg
              WHEN 100
-               MOVE '10' TO tlmcpil-rc
+               MOVE '10'    TO tlmcpil-rc
                MOVE 'CP, Ligne non trouvee ou fin du curseur' TO
                tlmcpil-msg
              WHEN OTHER
-               MOVE '99' TO tlmcpil-rc
+               MOVE '99'    TO tlmcpil-rc
+               MOVE sqlcode TO sqlcode-txt
                STRING
                  'CP, Erreur inconnue: <'
-                 sqlcode
+                 sqlcode-txt
                  '>'
+                 DELIMITED SIZE
                  INTO tlmcpil-msg
                END-STRING
            END-EVALUATE
