@@ -13,7 +13,7 @@
        OBJECT-COMPUTER. VIRTEL.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-      *    Infos concernant la connexion à la BDD
+      *    Infos concernant la connexion a la BDD
            EXEC SQL
              INCLUDE SQLCA
            END-EXEC.
@@ -22,6 +22,7 @@
              INCLUDE DCLPRO
            END-EXEC.
        77 SQLCODE-TXT     PIC S9(3).
+       77 SQLERR-MSG      PIC X(30).
        LINKAGE SECTION.
       *    Clause COPY pour structure d'echange prog. <-> sous-prog.
            COPY TLMCPIL.
@@ -57,7 +58,7 @@
              EXEC SQL
                SELECT NOM
                  INTO :tlmpro-nom
-                 FROM TRAIN04.TLMPRO
+                 FROM TLMPRO
                  WHERE ID=:tlmpro-id
              END-EXEC
       *      Verification SQLCODE
@@ -65,7 +66,7 @@
              MOVE tlmpro-nom TO cppro1-sor-lec-nom
            ELSE
              MOVE '01' TO tlmcpil-rc
-             MOVE 'CP, Lecture: ID prospect non renseigne!' TO
+             MOVE 'CP, Lecture: ID prospect non renseigne.' TO
                tlmcpil-msg
            END-IF
            .
@@ -94,10 +95,12 @@
              WHEN OTHER
                MOVE '99'    TO tlmcpil-rc
                MOVE sqlcode TO sqlcode-txt
+               MOVE sqlerrm TO sqlerr-m
                STRING
-                 'CP, Erreur inconnue: <'
+                 'ERR, <'
                  sqlcode-txt
-                 '>'
+                 '><'
+                 sqlerr-m
                  DELIMITED SIZE
                  INTO tlmcpil-msg
                END-STRING

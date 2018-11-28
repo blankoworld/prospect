@@ -24,6 +24,7 @@
            MOVE '000100'   TO    pgm1-ent-lec-id.
            CALL 'TLMPPRO1' USING tlmcpil pgm1.
            DISPLAY 'CL - TLMCPIL-MSG <' tlmcpil-msg '>'.
+           DISPLAY pgm1-sor-lec-nom.
            DISPLAY 'CL - termine'.
            GOBACK.
        END PROGRAM TLMLPRO1.
