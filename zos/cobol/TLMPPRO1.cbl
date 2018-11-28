@@ -36,7 +36,7 @@
            GOBACK.
 
        INIT.
-           DISPLAY 'CP - Traitement : ' tlmcpil-fct
+           DISPLAY 'PHY-init' tlmcpil-fct
            MOVE SPACES TO cppro1-sor
            .
 
@@ -51,23 +51,38 @@
            .
 
        LECTURE.
-           DISPLAY 'CP, Lecture'
+           DISPLAY 'PHY-LEC' WITH NO ADVANCING
            MOVE cppro1-ent-lec-id TO tlmpro-id
            IF cppro1-ent-lec-id NOT = SPACES THEN
+             DISPLAY ' <' tlmpro-id '>'
       *      Lecture de l'enregistrement
              EXEC SQL
-               SELECT NOM
-                 INTO :tlmpro-nom
-                 FROM TLMPRO
-                 WHERE ID=:tlmpro-id
+               SELECT
+                 NOM,
+                 ADDR_RUE,
+                 ADDR_CP,
+                 ADDR_VILLE
+               INTO
+                 :tlmpro-nom,
+                 :tlmpro-addr-rue,
+                 :tlmpro-addr-cp,
+                 :tlmpro-addr-ville
+               FROM TRAIN04.TLMPRO
+               WHERE ID=:tlmpro-id
              END-EXEC
       *      Verification SQLCODE
              PERFORM VERIF-SQLCODE
-             MOVE tlmpro-nom TO cppro1-sor-lec-nom
+             IF SQLCODE = 0 OR SQLCODE = 100 THEN
+               MOVE tlmpro-nom        TO cppro1-sor-lec-nom
+               MOVE tlmpro-addr-rue   TO cppro1-sor-lec-rue
+               MOVE tlmpro-addr-cp    TO cppro1-sor-lec-cp
+               MOVE tlmpro-addr-ville TO cppro1-sor-lec-ville
+             END-IF
            ELSE
              MOVE '01' TO tlmcpil-rc
-             MOVE 'CP, Lecture: ID prospect non renseigne.' TO
-               tlmcpil-msg
+             MOVE 'CP, Lecture: ID prospect non renseigne.'
+               TO tlmcpil-msg
+             DISPLAY ' None'
            END-IF
            .
 
@@ -95,12 +110,12 @@
              WHEN OTHER
                MOVE '99'    TO tlmcpil-rc
                MOVE sqlcode TO sqlcode-txt
-               MOVE sqlerrm TO sqlerr-m
+               MOVE sqlerrm TO sqlerr-msg
                STRING
                  'ERR, <'
                  sqlcode-txt
                  '><'
-                 sqlerr-m
+                 sqlerr-msg
                  DELIMITED SIZE
                  INTO tlmcpil-msg
                END-STRING
