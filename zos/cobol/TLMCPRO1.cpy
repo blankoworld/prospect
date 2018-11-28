@@ -44,9 +44,26 @@
       *       Remplissage du reste de la chaine
            10 FILLER               PIC  X(279).
       *****************************************************************
+      *             Donnees pour un AJOUT TMLPRO (PROSPECT)
+      *****************************************************************
+        05 :PROG:-ENT-AJO REDEFINES :PROG:-ENT.
+      *       Nom
+           10 :PROG:-ENT-AJO-NOM   PIC  X(35).
+      *       Rue
+           10 :PROG:-ENT-AJO-RUE   PIC  X(40).
+      *       Code postal
+           10 :PROG:-ENT-AJO-CP    PIC  X(5).
+      *       Ville
+           10 :PROG:-ENT-AJO-VILLE PIC  X(35).
+      *       Remplissage du reste de la chaine
+           10 FILLER               PIC  X(285).
+      *****************************************************************
       *     Donnees en sortie
       *****************************************************************
         05 :PROG:-SOR              PIC X(400).
+      *****************************************************************
+      *         Donnees en sortie apres LECTURE TLMPRO (PROSPECT)
+      *****************************************************************
         05 :PROG:-SOR-LEC REDEFINES :PROG:-SOR.
       *       Identifiant
            10 :PROG:-SOR-LEC-ID    PIC  X(6).
@@ -60,3 +77,11 @@
            10 :PROG:-SOR-LEC-VILLE PIC  X(35).
       *       Remplissage du reste de la chaine
            10 FILLER               PIC  X(279).
+      *****************************************************************
+      *      Donnees en sortie apres un AJOUT TLMPRO (PROSPECT)
+      *****************************************************************
+        05 :PROG:-SOR-AJO REDEFINES :PROG:-SOR.
+      *       Identifiant
+           10 :PROG:-SOR-AJO-ID    PIC  X(6).
+      *       Remplissage du reste de la chaine
+           10 FILLER               PIC  X(394).

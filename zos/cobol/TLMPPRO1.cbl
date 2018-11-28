@@ -51,8 +51,8 @@
            .
 
        LECTURE.
-           DISPLAY 'PHY-LEC' WITH NO ADVANCING
-           MOVE cppro1-ent-lec-id TO tlmpro-id
+           DISPLAY 'PHY-LEC'          WITH NO ADVANCING
+           MOVE cppro1-ent-lec-id     TO tlmpro-id
            IF cppro1-ent-lec-id NOT = SPACES THEN
              DISPLAY ' <' tlmpro-id '>'
       *      Lecture de l'enregistrement
@@ -114,8 +114,8 @@
            .
 
        SUPPRESSION.
-           DISPLAY 'PHY-SUP' WITH NO ADVANCING
-           MOVE cppro1-ent-sup-id TO tlmpro-id
+           DISPLAY 'PHY-SUP'                     WITH NO ADVANCING
+           MOVE cppro1-ent-sup-id                TO tlmpro-id
            IF cppro1-ent-sup-id NOT = SPACES THEN
              DISPLAY ' <' tlmpro-id '>'
              EXEC SQL
@@ -127,7 +127,7 @@
       *      Code retour du succes du traitement (cas echeant
       *      verifie par VERIF-SQLCODE precedemment)
              IF SQLCODE = 0 OR SQLCODE = 100 THEN
-               MOVE '00' to tlmcpil-rc
+               MOVE '00'                         TO tlmcpil-rc
                STRING
                  'OK, DEL <'
                  tlmpro-id
@@ -144,7 +144,41 @@
            .
 
        AJOUT.
-           CONTINUE.
+           DISPLAY 'PHY-AJO'                     WITH NO ADVANCING
+           MOVE cppro1-ent-ajo-nom               TO tlmpro-nom
+           MOVE cppro1-ent-ajo-rue               TO tlmpro-addr-rue
+           MOVE cppro1-ent-ajo-cp                TO tlmpro-addr-cp
+           MOVE cppro1-ent-ajo-ville             TO tlmpro-addr-ville
+           EXEC SQL
+           SELECT ID
+             INTO :tlmpro-id
+             FROM FINAL TABLE (
+               INSERT INTO TRAIN04.TLMPRO (
+                   NOM,
+                   ADDR_RUE,
+                   ADDR_CP,
+                   ADDR_VILLE)
+               VALUES (
+                   :tlmpro-nom,
+                   :tlmpro-addr-rue,
+                   :tlmpro-addr-cp,
+                   :tlmpro-addr-ville)
+                   )
+           END-EXEC
+           PERFORM VERIF-SQLCODE
+      *    Code retour du succes
+           IF SQLCODE = 0 OR SQLCODE = 100 THEN
+             MOVE tlmpro-id                      TO cppro1-sor-ajo-id
+             MOVE '00'                           TO tlmcpil-rc
+             STRING
+               'OK, AJO <'
+               cppro1-sor-ajo-id
+               '>'
+               DELIMITED size
+               INTO tlmcpil-msg
+             END-STRING
+           END-IF
+           .
 
        FIN.
            CONTINUE.
