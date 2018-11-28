@@ -3,7 +3,7 @@
       *                   --------------------------
       *****************************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.      PROSLSEL.
+       PROGRAM-ID.      TLMLPRO1.
        AUTHOR.          Olivier DOSSMANN.
        DATE-WRITTEN.    20181126.
       
@@ -14,14 +14,16 @@
        DATA DIVISION.
        WORKING-STORAGE SECTION.
       *   Couche physique
-       COPY TLMCPIL.
+           COPY TLMCPIL.
+           COPY TLMCPRO1 REPLACING ==:PROG:== BY ==PGM1==.
        PROCEDURE DIVISION.
        DEBUT.
            DISPLAY 'CL - Lancement CP:' WITH NO ADVANCING.
       *    Envoi d'une demande de SELECT a la couche physique
            MOVE 'SELECT'   TO    tlmcpil-fct.
-           CALL 'PROSPSEL' USING tlmcpil.
+           MOVE '000100'   TO    pgm1-ent-lec-id.
+           CALL 'TLMPPRO1' USING tlmcpil pgm1.
            DISPLAY 'CL - TLMCPIL-MSG <' tlmcpil-msg '>'.
            DISPLAY 'CL - termine'.
            GOBACK.
-       END PROGRAM PROSLSEL.
+       END PROGRAM TLMLPRO1.

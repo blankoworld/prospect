@@ -3,7 +3,7 @@
       *                  ----------------------------
       *****************************************************************
        IDENTIFICATION DIVISION.
-       PROGRAM-ID.      PROSPSEL.
+       PROGRAM-ID.      TLMPPRO1.
        AUTHOR.          Olivier DOSSMANN.
        DATE-WRITTEN.    20181122.
       
@@ -25,8 +25,8 @@
       *    Clause COPY pour structure d'echange prog. <-> sous-prog.
            COPY TLMCPIL.
       *    Clause COPY pour echange prog./ss-prog. avec donnees
-           COPY TLMCPRO1 REPLACING ==:PROG:== BY ==PGM1==.
-       PROCEDURE DIVISION using tlmcpil pgm1.
+           COPY TLMCPRO1 REPLACING ==:PROG:== BY ==CPPRO1==.
+       PROCEDURE DIVISION using tlmcpil cppro1.
        DEBUT.
            PERFORM INIT.
            PERFORM TRAITEMENT.
@@ -35,7 +35,7 @@
 
        INIT.
            DISPLAY 'CP - Traitement : ' tlmcpil-fct
-           MOVE SPACES TO pgm1-sortie
+           MOVE SPACES TO cppro1-sortie
            .
 
        TRAITEMENT.
@@ -50,8 +50,8 @@
 
        LECTURE.
            DISPLAY 'CP, Lecture'
-           MOVE tlmcpil-id TO pgm1-ent-lec-id
-           IF pgm1-ent-lec-id NOT = SPACES THEN
+           MOVE tlmcpil-id TO cppro1-ent-lec-id
+           IF cppro1-ent-lec-id NOT = SPACES THEN
       *      Lecture de l'enregistrement
              EXEC SQL
                SELECT NOM
@@ -59,7 +59,7 @@
                  FROM TRAIN04.TLMPRO
              END-EXEC.
       *      Verification SQLCODE
-           PERFORM VER-SQL-CODE
+             PERFORM VERIF-SQLCODE
            ELSE
              MOVE '01' TO tlmcpil-rc
              MOVE 'CP, Lecture: ID prospect non renseigne!' TO
@@ -79,7 +79,7 @@
        FIN.
            CONTINUE.
 
-       VER-SQL-CODE.
+       VERIF-SQLCODE.
            EVALUATE sqlcode
              WHEN 0
                MOVE '00' TO tlmcpil-rc
@@ -99,4 +99,4 @@
            END-EVALUATE
            .
 
-       END PROGRAM PROSPSEL.
+       END PROGRAM TLMPPRO1.
