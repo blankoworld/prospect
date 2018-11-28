@@ -90,7 +90,27 @@
            CONTINUE.
 
        SUPPRESSION.
-           CONTINUE.
+           DISPLAY 'PHY-SUP' WITH NO ADVANCING
+           MOVE cppro1-ent-lec-id TO tlmpro-id
+           IF cppro1-ent-lec-id NOT = SPACES THEN
+             DISPLAY ' <' tlmpro-id '>'
+             EXEC SQL
+               DELETE
+               FROM TRAIN04.TLMPRO
+               WHERE ID=:tlmpro-id
+             END-EXEC
+             PERFORM VERIF-SQLCODE
+             IF SQLCODE = 0 OR SQLCODE = 100 THEN
+               MOVE '00' to tlmcpil-rc
+               STRING
+                 'OK, DEL <'
+                 tlmpro-id
+                 '>'
+                 DELIMITED size
+                 INTO tlmcpil-msg
+               END-STRING
+             END-IF
+           .
 
        AJOUT.
            CONTINUE.
