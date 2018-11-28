@@ -100,6 +100,8 @@
                WHERE ID=:tlmpro-id
              END-EXEC
              PERFORM VERIF-SQLCODE
+      *      Code retour du succes du traitement (cas echeant
+      *      verifie par VERIF-SQLCODE precedemment)
              IF SQLCODE = 0 OR SQLCODE = 100 THEN
                MOVE '00' to tlmcpil-rc
                STRING
@@ -110,6 +112,11 @@
                  INTO tlmcpil-msg
                END-STRING
              END-IF
+           ELSE
+             MOVE '01'                           TO tlmcpil-rc
+             MOVE 'PHY-SUP: code prospect vide.' TO tlmcpil-msg
+             DISPLAY ' None'
+           END-IF
            .
 
        AJOUT.
