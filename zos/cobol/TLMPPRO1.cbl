@@ -91,8 +91,8 @@
 
        SUPPRESSION.
            DISPLAY 'PHY-SUP' WITH NO ADVANCING
-           MOVE cppro1-ent-lec-id TO tlmpro-id
-           IF cppro1-ent-lec-id NOT = SPACES THEN
+           MOVE cppro1-ent-sup-id TO tlmpro-id
+           IF cppro1-ent-sup-id NOT = SPACES THEN
              DISPLAY ' <' tlmpro-id '>'
              EXEC SQL
                DELETE
