@@ -118,7 +118,7 @@
              PERFORM VERIF-SQLCODE
            ELSE
              MOVE '01'                           TO tlmcpil-rc
-             MOVE 'PHY-MAJ: code contact vide.' TO tlmcpil-msg
+             MOVE 'PHY-MAJ: code contact vide.'  TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
@@ -148,7 +148,7 @@
              END-IF
            ELSE
              MOVE '01'                           TO tlmcpil-rc
-             MOVE 'PHY-SUP: code contact vide.' TO tlmcpil-msg
+             MOVE 'PHY-SUP: code contact vide.'  TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
@@ -161,6 +161,7 @@
            MOVE cpcon2-ent-ajo-mel               TO tlmcon-mel
            MOVE cpcon2-ent-ajo-note              TO tlmcon-note
            MOVE cpcon2-ent-ajo-pid               TO tlmcon-pid
+      *    Requete de creation en recuperant l'ID de l'enregistrement
            EXEC SQL
            SELECT ID
              INTO :tlmcon-id
@@ -171,7 +172,7 @@
                  TEL,
                  MEL,
                  NOTE,
-                 PID
+                 PID)
                VALUES (
                    :tlmcon-nom,
                    :tlmcon-prenom,
@@ -184,6 +185,7 @@
            PERFORM VERIF-SQLCODE
       *    Code retour du succes
            IF SQLCODE = 0 OR SQLCODE = 100 THEN
+      *      L'ID de l'enregistrement precedemment cree ira en sortie
              MOVE tlmcon-id                      TO cpcon2-sor-ajo-id
              MOVE '00'                           TO tlmcpil-rc
              STRING
@@ -202,16 +204,16 @@
        VERIF-SQLCODE.
            EVALUATE sqlcode
              WHEN 0
-               MOVE '00'    TO tlmcpil-rc
-               MOVE 'CP, Requete terminee avec succes.' TO tlmcpil-msg
+               MOVE '00'                         TO tlmcpil-rc
+               MOVE 'PHY-CON, Requete:  succes.' TO tlmcpil-msg
              WHEN 100
-               MOVE '10'    TO tlmcpil-rc
-               MOVE 'CP, Ligne non trouvee ou fin du curseur' TO
-               tlmcpil-msg
+               MOVE '10'                         TO tlmcpil-rc
+               MOVE 'PHY-CON, Code 100 non trouve ou fin cur.'
+                                                 TO tlmcpil-msg
              WHEN OTHER
-               MOVE '99'    TO tlmcpil-rc
-               MOVE sqlcode TO sqlcode-txt
-               MOVE sqlerrm TO sqlerr-msg
+               MOVE '99'                         TO tlmcpil-rc
+               MOVE sqlcode                      TO sqlcode-txt
+               MOVE sqlerrm                      TO sqlerr-msg
                STRING
                  'ERR, <'
                  sqlcode-txt

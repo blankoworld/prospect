@@ -186,16 +186,16 @@
        VERIF-SQLCODE.
            EVALUATE sqlcode
              WHEN 0
-               MOVE '00'    TO tlmcpil-rc
-               MOVE 'CP, Requete terminee avec succes.' TO tlmcpil-msg
+               MOVE '00'                         TO tlmcpil-rc
+               MOVE 'PHY-PRO Req. succes.'       TO tlmcpil-msg
              WHEN 100
-               MOVE '10'    TO tlmcpil-rc
-               MOVE 'CP, Ligne non trouvee ou fin du curseur' TO
-               tlmcpil-msg
+               MOVE '10'                         TO tlmcpil-rc
+               MOVE 'PHY-PRO Code 100, non trouve ou fin cur.'
+                                                 TO tlmcpil-msg
              WHEN OTHER
-               MOVE '99'    TO tlmcpil-rc
-               MOVE sqlcode TO sqlcode-txt
-               MOVE sqlerrm TO sqlerr-msg
+               MOVE '99'                         TO tlmcpil-rc
+               MOVE sqlcode                      TO sqlcode-txt
+               MOVE sqlerrm                      TO sqlerr-msg
                STRING
                  'ERR, <'
                  sqlcode-txt
