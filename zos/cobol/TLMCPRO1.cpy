@@ -44,9 +44,11 @@
       *       Remplissage du reste de la chaine
            10 FILLER               PIC  X(279).
       *****************************************************************
-      *             Donnees pour un AJOUT TMLPRO (PROSPECT)
+      *             Donnees pour un AJOUT TLMPRO (PROSPECT)
       *****************************************************************
         05 :PROG:-ENT-AJO REDEFINES :PROG:-ENT.
+      *       Identifiant
+            10 :PROG:-ENT-AJO-ID   PIC  X(06).
       *       Nom
            10 :PROG:-ENT-AJO-NOM   PIC  X(35).
       *       Rue
@@ -56,7 +58,7 @@
       *       Ville
            10 :PROG:-ENT-AJO-VILLE PIC  X(35).
       *       Remplissage du reste de la chaine
-           10 FILLER               PIC  X(285).
+           10 FILLER               PIC  X(279).
       *****************************************************************
       *     Donnees en sortie
       *****************************************************************

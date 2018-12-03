@@ -51,6 +51,8 @@
       *             Donnees pour un AJOUT TMLCON (CONTACT)
       *****************************************************************
         05 :PROG:-ENT-AJO REDEFINES :PROG:-ENT.
+      *       Identifiant
+           10 :PROG:-ENT-AJO-ID     PIC  X(06).
       *       Nom
            10 :PROG:-ENT-AJO-NOM    PIC  X(35).
       *       Prenom
@@ -64,7 +66,7 @@
       *       Prospect de rattache
            10 :PROG:-ENT-AJO-PID    PIC  X(6).
       *       Remplissage du reste de la chaine
-           10 FILLER                PIC  X(154).
+           10 FILLER                PIC  X(148).
       *****************************************************************
       *     Donnees en sortie
       *****************************************************************

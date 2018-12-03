@@ -154,11 +154,13 @@
              INTO :tlmpro-id
              FROM FINAL TABLE (
                INSERT INTO TRAIN04.TLMPRO (
+                   ID,
                    NOM,
                    ADDR_RUE,
                    ADDR_CP,
                    ADDR_VILLE)
                VALUES (
+                   :tlmcon-id,
                    :tlmpro-nom,
                    :tlmpro-addr-rue,
                    :tlmpro-addr-cp,

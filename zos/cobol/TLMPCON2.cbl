@@ -155,6 +155,7 @@
 
        AJOUT.
            DISPLAY 'PHY-AJO'                     WITH NO ADVANCING
+           MOVE cpcon2-ent-ajo-id                TO tlmcon-id
            MOVE cpcon2-ent-ajo-nom               TO tlmcon-nom
            MOVE cpcon2-ent-ajo-prenom            TO tlmcon-prenom
            MOVE cpcon2-ent-ajo-tel               TO tlmcon-tel
@@ -167,6 +168,7 @@
              INTO :tlmcon-id
              FROM FINAL TABLE (
                INSERT INTO TRAIN04.TLMCON (
+                 ID,
                  NOM,
                  PRENOM,
                  TEL,
@@ -174,6 +176,7 @@
                  NOTE,
                  PID)
                VALUES (
+                   :tlmcon-id,
                    :tlmcon-nom,
                    :tlmcon-prenom,
                    :tlmcon-tel,
