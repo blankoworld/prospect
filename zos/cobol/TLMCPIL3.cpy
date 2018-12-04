@@ -17,7 +17,9 @@
       *        Suppression d'un element (code S)
                88 :PROG:-PIL-CMD-SUP          VALUE 'S'.
       *        Carateres de pilotage valides
-               88 :PROG:-PIL-CMD-VALIDE       VALUE 'A','M','S'.
+               88 :PROG:-PIL-CMD-VALIDE       VALUE 'A'
+                                                    'M'
+                                                    'S'.
       *    Enregistrement d'un prospect
            05 :PROG:-PIL-PRO.
       *      Identifiant

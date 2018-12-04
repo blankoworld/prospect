@@ -43,10 +43,13 @@
        TRAITEMENT.
       *    Lecture fonction pour lancement
            EVALUATE tlmcpil-fct
-             WHEN 'SELECT'          PERFORM LECTURE
+             WHEN 'SELECT'          
+                PERFORM LECTURE
              WHEN 'UPDATE'          PERFORM MAJ
              WHEN 'DELETE'          PERFORM SUPPRESSION
              WHEN 'ADD'             PERFORM AJOUT
+             WHEN OTHER             PERFORM ERREUR
+      *      TODO: faire fx ERREUR + aligner PERFORM
            END-EVALUATE
            .
 
@@ -72,7 +75,7 @@
              END-EXEC
       *      Verification SQLCODE
              PERFORM VERIF-SQLCODE
-             IF SQLCODE = 0 OR SQLCODE = 100 THEN
+             IF SQLCODE = 0 THEN
                MOVE tlmpro-nom        TO cppro1-sor-lec-nom
                MOVE tlmpro-addr-rue   TO cppro1-sor-lec-rue
                MOVE tlmpro-addr-cp    TO cppro1-sor-lec-cp

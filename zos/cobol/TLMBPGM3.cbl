@@ -24,10 +24,11 @@
            SELECT log    ASSIGN TO JOURNAUX.
        DATA DIVISION.
        FILE-SECTION.
+      * TODO: FILE STATUS
        FD pilote RECORDING MODE F.
        COPY TLMCPIL3 REPLACING ==:PROG:== BY ==f==.
        FD log RECORDING MODE F.
-       01 f-log                          PIC   X(800).
+       01 f-log                          PIC   X(80).
        WORKING-STORAGE SECTION.
        01 w-fin-fic                      PIC   9.
            88 w-fin-fic-oui                      VALUE 1.
@@ -38,6 +39,15 @@
        01 w-err                          PIC   9.
            88 w-err-oui                          VALUE 1.
            88 w-err-non                          VALUE 0.
+       01 w-compteur.
+           05 w-cpt-lec                  PIC   9(06).
+           05 w-cpt-err                  PIC   9(06).
+           05 w-cpt-ajo                  PIC   9(06).
+           05 w-cpt-maj                  PIC   9(06).
+           05 w-cpt-sup                  PIC   9(06).
+           05 w-cpt-rej                  PIC   9(06).
+           05 w-cpt-tot                  PIC   9(06).
+       77 w-enr-log                      PIC   X(80).
       *****************************************************************
       * DONNEES D'ECHANGE AVEC LES ACCESSEURS PHYSIQUES
       *****************************************************************
@@ -51,14 +61,19 @@
            PERFORM INIT
            PERFORM TRT UNTIL w-fin-fic-oui
            PERFORM FIN
+           PERFORM COMPTE-RENDU-EXECUTION
            GOBACK.
            .
 
+      *****************************************************************
+      * Initialisation de quelques variables.
+      * Ouverture du fichier d'entree.
+      *****************************************************************
        INIT.
            SET w-fin-fic-non             TO TRUE
            OPEN INPUT pilote
-           OPEN OUTPUT log
            SET w-err-non                 TO TRUE
+           MOVE ALL ZERO                 TO w-compteur
            .
 
       *****************************************************************
@@ -234,9 +249,158 @@
            END-IF
            .
 
+      *****************************************************************
+      * Fermeture des fichiers
+      *****************************************************************
        FIN.
            CLOSE pilote
+           .
+
+      *****************************************************************
+      * Envoi un compte rendu d'execution dans un fichier 'log'
+      * compose de : 
+      *  - une entete
+      *  - une liste de compteurs d'ecriture dans la base, insertion,
+      *    modification, suppression, etc.
+      *  - une enqueue
+      *****************************************************************
+       COMPTE-RENDU-EXECUTION.
+           PERFORM CPT-RENDU-EXEC-INIT
+           PERFORM CPT-RENDU-EXEC-TRT
+           PERFORM CPT-RENDU-EXEC-FIN
+           .
+
+      *****************************************************************
+      * Ouverture du fichier de log.
+      * Creation de l'entete.
+      *****************************************************************
+       CPT-RENDU-EXEC-INIT.
+           OPEN OUTPUT log
+           MOVE SPACES TO f-log
+           PERFORM ENTETE
+           .
+
+      *****************************************************************
+      * Enregistrement des compteurs dans le fichier de log
+      *****************************************************************
+       CPT-RENDU-EXEC-TRT.
+      *    Saut de ligne
+           MOVE '                                                 '
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+      *    Affichage des differents compteurs
+           MOVE 'Compteurs de lecture(s) du fichier de mise a jour'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '-------------------------------------------------'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+      *    Saut de ligne
+           MOVE '                                                 '
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           
+           MOVE 'Nombre de lectures : '
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE ''
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE ''
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE ''
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           .
+
+      *****************************************************************
+      * - Creation de l'enqueue
+      * - Fermeture du fichier de log
+      *****************************************************************
+       CPT-RENDU-EXEC-FIN.
+           PERFORM ENQUEUE
            CLOSE log
+           .
+
+      *****************************************************************
+      * Enregistrement de l'entete
+      *****************************************************************
+       ENTETE.
+      *    Entete avec... une tete...
+           MOVE '                      \\\///'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '                     / _  _ \'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '                   (| (.)(.) |)'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '.----------------.OOOo--()--oOOO.----------------.'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '|                                                |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '|            COMPTE-RENDU D''EXECUTION          |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '|            -------------------------           |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '|                                                |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '| Programme :         TLMBPGM3                   |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '| Developpeur :       ODO                        |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '| Environnement :     BIZ1                       |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '| Date d''execution :                           |'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+      *    Et meme des pieds dans l'entete
+           MOVE '.----------------.oooO---------------------------.'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '                  (   )   Oooo.'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '                   \ (    (   )'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '                    \_)    ) /'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '                          (_/'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+      *    2 sauts de ligne
+           WRITE f-log                 FROM ''
+           WRITE f-log                 FROM ''
+           .
+
+      *****************************************************************
+      * Enregistrement de l'enqueue
+      *****************************************************************
+       ENQUEUE.
+           WRITE f-log                 FROM ''
+           WRITE f-log                 FROM ''
+      *    Notification que le compte-rendu est bel et bien termine
+           MOVE '.------------------------------------------------.'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '|     F I N   D E   C O M P T E  -  R E N D U     '
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+           MOVE '.------------------------------------------------.'
+                                       TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
            .
 
        END PROGRAM TLMBPGM3.
