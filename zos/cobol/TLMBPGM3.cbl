@@ -39,15 +39,61 @@
        01 w-err                          PIC   9.
            88 w-err-oui                          VALUE 1.
            88 w-err-non                          VALUE 0.
+      *****************************************************************
+      * COMPTEURS pour l'edition du rapport
+      *****************************************************************
+      *
+      *   Compteurs divers pour l'edition du compte-rendu de traitement
        01 w-compteur.
-           05 w-cpt-lec                  PIC   9(06).
-           05 w-cpt-err                  PIC   9(06).
-           05 w-cpt-ajo                  PIC   9(06).
-           05 w-cpt-maj                  PIC   9(06).
-           05 w-cpt-sup                  PIC   9(06).
-           05 w-cpt-rej                  PIC   9(06).
-           05 w-cpt-tot                  PIC   9(06).
+      *       Nombre de lignes lues en entree
+           05 w-cpt-lec                  PIC   9(06) COMP-3.
+      *       Nombre d'erreurs rencontrees
+           05 w-cpt-err                  PIC   9(06) COMP-3.
+      *       Nombre de lignes ajoutees avec succes
+           05 w-cpt-ajo                  PIC   9(06) COMP-3.
+      *       Nombre de lignes mises a jour avec succes
+           05 w-cpt-maj                  PIC   9(06) COMP-3.
+      *       Nombre de lignes supprimees avec succes
+           05 w-cpt-sup                  PIC   9(06) COMP-3.
+      *       Nombre de lignes rejetees
+           05 w-cpt-rej                  PIC   9(06) COMP-3.
+      *       Nombre de lignes traitees avec succes
+           05 w-cpt-tot                  PIC   9(06) COMP-3.
+      *
+      *   Affichage nombre lignes lues en entree
+       01 w-rap-lec                      PIC   X(49).
+           05 FILLER                     PIC   X(43) VALUE
+                'Nombre de lectures :                       '.
+           05 w-rap-lec-nbr              PIC   ZZZBZZ9.
+      *   Affichage nombre de lignes ajoutees avec succes
+       01 w-rap-ajo                      PIC   X(49).
+           05 FILLER                     PIC   X(43) VALUE
+                'Nombre d''ajout :                           '.
+           05 w-rap-ajo-nbr              PIC   ZZZBZZ9.
+      *   Affichage nombre de lignes mises a jour avec succes
+       01 w-rap-maj                      PIC   X(49).
+           05 FILLER                     PIC   X(43) VALUE
+                'Nombre de mise a jour :                    '.
+           05 w-rap-maj-nbr              PIC   ZZZBZZ9.
+      *   Nombre de lignes supprimees avec succes
+       01 w-rap-sup                      PIC   X(49).
+           05 FILLER                     PIC   X(43) VALUE
+                'Nombre de lignes supprimees :              '.
+           05 w-rap-sup-nbr              PIC   ZZZBZZ9.
+      *   Nombre de lignes rejetees
+       01 w-rap-rej                      PIC   X(49).
+           05 FILLER                     PIC   X(43) VALUE
+                'Nombre de lignes rejetees :                '.
+           05 w-rap-rej-nbr              PIC   ZZZBZZ9.
+      *   Nombre de lignes traitees avec succes
+       01 w-rap-tot                      PIC   X(49).
+           05 FILLER                     PIC   X(43) VALUE
+                'Nombre de lignes totales :                 '.
+           05 w-rap-tot-nbr              PIC   ZZZBZZ9.
+      *****************************************************************
+
        77 w-enr-log                      PIC   X(80).
+
       *****************************************************************
       * DONNEES D'ECHANGE AVEC LES ACCESSEURS PHYSIQUES
       *****************************************************************
@@ -73,6 +119,7 @@
            SET w-fin-fic-non             TO TRUE
            OPEN INPUT pilote
            SET w-err-non                 TO TRUE
+      *    Initialisation de tous les compteurs
            MOVE ALL ZERO                 TO w-compteur
            .
 
@@ -85,6 +132,8 @@
                AT END SET w-fin-fic-oui  TO TRUE
                NOT AT END PERFORM TRT-ENR
            END-READ
+      *    Lecture effectuee : j'incremente le compteur
+           ADD 1                         TO w-cpt-lec
            .
 
       *****************************************************************
@@ -121,6 +170,8 @@
       *    creation contact
            MOVE f-pil-con-id             TO cpcon-ent-lec-id
            PERFORM CREA-CON
+      *    Ligne ajoutee : j'incremente le compteur
+           ADD 1                         TO w-cpt-ajo
            .
 
       *****************************************************************
@@ -140,6 +191,8 @@
            END-IF
       *    mise a jour contact
            PERFORM MAJ-CON
+      *    Ligne mise a jour : j'incremente le compteur
+           ADD 1                         TO w-cpt-maj
            .
 
       *****************************************************************
@@ -149,6 +202,8 @@
            DISPLAY 'MET-SUP, FX SUPPRESSION'
       *    suppression contact
            PERFORM SUP-CON
+      *    Ligne supprimee : j'incremente le compteur
+           ADD 1                         TO w-cpt-sup
            .
 
       *****************************************************************
@@ -159,6 +214,8 @@
       *    rejet de la ligne
            DISPLAY 'Rejet de la ligne pour une raison inconnue'
            DISPLAY '<' f-pil '>'
+      *    Ligne rejetee : j'incremente le compteur
+           ADD 1                         TO w-cpt-rej
            .
 
       *****************************************************************
@@ -246,6 +303,8 @@
            IF tlmcpil-rc NOT = '00' THEN
              DISPLAY 'MET-ERR <' tlmpil-rc '><' tlmpil-msg '>'
              SET w-err-oui               TO TRUE
+      *      Erreur rencontree : j'incremente le compteur
+             ADD 1                         TO w-cpt-err
            END-IF
            .
 
@@ -254,6 +313,9 @@
       *****************************************************************
        FIN.
            CLOSE pilote
+      *    Combien de ligne traitees avec succes ? SUP + AJO + MAJ
+           ADD w-cpt-ajo w-cpt-maj       TO w-cpt-sup
+                                         GIVING w-cpt-tot
            .
 
       *****************************************************************
@@ -299,18 +361,38 @@
            MOVE '                                                 '
                                        TO w-enr-log
            WRITE f-log                 FROM w-enr-log
+      *    Combien de lignes lues ?
+           MOVE w-cpt-lec              TO w-rap-lec-nbr
+           MOVE w-rap-lec              TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+
+      *    Combien de lignes ajoutees ?
+           MOVE w-cpt-ajo              TO w-rap-ajo-nbr
+           MOVE w-rap-ajo              TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+
+      *    Combien de lignes mises a jour ?
+           MOVE w-cpt-maj              TO w-rap-maj-nbr
+           MOVE w-rap-maj              TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
            
-           MOVE 'Nombre de lectures : '
+      *    Combien de lignes supprimees ?
+           MOVE w-cpt-sup              TO w-rap-sup-nbr
+           MOVE w-rap-sup              TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+
+      *    Combien de lignes rejetees ?
+           MOVE w-cpt-rej              TO w-rap-rej-nbr
+           MOVE w-rap-rej              TO w-enr-log
+           WRITE f-log                 FROM w-enr-log
+
+      *    Ligne de separation
+           MOVE '-------------------------------------------------'
                                        TO w-enr-log
            WRITE f-log                 FROM w-enr-log
-           MOVE ''
-                                       TO w-enr-log
-           WRITE f-log                 FROM w-enr-log
-           MOVE ''
-                                       TO w-enr-log
-           WRITE f-log                 FROM w-enr-log
-           MOVE ''
-                                       TO w-enr-log
+      *    Combien de lignes traitees au total ?
+           MOVE w-cpt-tot              TO w-rap-tot-nbr
+           MOVE w-rap-tot              TO w-enr-log
            WRITE f-log                 FROM w-enr-log
            .
 
