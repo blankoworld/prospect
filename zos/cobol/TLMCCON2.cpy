@@ -12,7 +12,7 @@
       ***************************************************************** 
         05 :PROG:-ENT               PIC  X(400).
       *****************************************************************
-      *           Donnees pour une LECTURE TMLCON (CONTACT)
+      *           Donnees pour une LECTURE TLMCON (CONTACT)
       *****************************************************************
         05 :PROG:-ENT-LEC REDEFINES :PROG:-ENT.
       *       Identifiant
@@ -20,7 +20,7 @@
       *       Remplissage du reste de la chaine
            10 FILLER                PIC  X(394).
       *****************************************************************
-      *         Donnees pour une SUPPRESSION TMLCON (CONTACT)
+      *         Donnees pour une SUPPRESSION TLMCON (CONTACT)
       *****************************************************************
         05 :PROG:-ENT-SUP REDEFINES :PROG:-ENT.
       *       Identifiant
@@ -28,7 +28,7 @@
       *       Remplissage du reste de la chaine
            10 FILLER                PIC  X(394).
       *****************************************************************
-      *         Donnees pour une MODIFICATION TMLCON (CONTACT)
+      *         Donnees pour une MODIFICATION TLMCON (CONTACT)
       *****************************************************************
         05 :PROG:-ENT-MAJ REDEFINES :PROG:-ENT.
       *       Identifiant
@@ -48,7 +48,7 @@
       *       Remplissage du reste de la chaine
            10 FILLER                PIC  X(148).
       *****************************************************************
-      *             Donnees pour un AJOUT TMLCON (CONTACT)
+      *             Donnees pour un AJOUT TLMCON (CONTACT)
       *****************************************************************
         05 :PROG:-ENT-AJO REDEFINES :PROG:-ENT.
       *       Identifiant

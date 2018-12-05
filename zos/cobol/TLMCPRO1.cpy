@@ -12,7 +12,7 @@
       ***************************************************************** 
         05 :PROG:-ENT              PIC  X(400).
       *****************************************************************
-      *           Donnees pour une LECTURE TMLPRO (PROSPECT)
+      *           Donnees pour une LECTURE TLMPRO (PROSPECT)
       *****************************************************************
         05 :PROG:-ENT-LEC REDEFINES :PROG:-ENT.
       *       Identifiant
@@ -20,7 +20,7 @@
       *       Remplissage du reste de la chaine
            10 FILLER               PIC  X(394).
       *****************************************************************
-      *         Donnees pour une SUPPRESSION TMLPRO (PROSPECT)
+      *         Donnees pour une SUPPRESSION TLMPRO (PROSPECT)
       *****************************************************************
         05 :PROG:-ENT-SUP REDEFINES :PROG:-ENT.
       *       Identifiant
@@ -28,7 +28,7 @@
       *       Remplissage du reste de la chaine
            10 FILLER               PIC  X(394).
       *****************************************************************
-      *         Donnees pour une MODIFICATION TMLPRO (PROSPECT)
+      *         Donnees pour une MODIFICATION TLMPRO (PROSPECT)
       *****************************************************************
         05 :PROG:-ENT-MAJ REDEFINES :PROG:-ENT.
       *       Identifiant

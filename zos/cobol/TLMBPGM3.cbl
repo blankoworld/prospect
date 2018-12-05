@@ -5,7 +5,7 @@
       * APPLICATION      : MAJ TLMPRO & TLMCON DEPUIS FIC. PILOTE.
       * NOM DU PROGRAMME : TLMBPGM3
       * DESCRIPTION      : PROGRAMME BATCH DE MISE A JOUR DES TABLES
-      *    TMLPRO & TLMCON DEPUIS UN FICHIER DE PILOTAGE
+      *    TLMPRO & TLMCON DEPUIS UN FICHIER DE PILOTAGE
       *****************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID.      TLMBPGM3.
@@ -23,7 +23,7 @@
       *    Fichier de journalisation (logs)
            SELECT log    ASSIGN TO JOURNAUX.
        DATA DIVISION.
-       FILE-SECTION.
+       FILE SECTION.
       * TODO: FILE STATUS
        FD pilote RECORDING MODE F.
        COPY TLMCPIL3 REPLACING ==:PROG:== BY ==f==.
@@ -61,32 +61,32 @@
            05 w-cpt-tot                  PIC   9(06) COMP-3.
       *
       *   Affichage nombre lignes lues en entree
-       01 w-rap-lec                      PIC   X(49).
+       01 w-rap-lec.
            05 FILLER                     PIC   X(43) VALUE
                 'Nombre de lectures :                       '.
            05 w-rap-lec-nbr              PIC   ZZZBZZ9.
       *   Affichage nombre de lignes ajoutees avec succes
-       01 w-rap-ajo                      PIC   X(49).
+       01 w-rap-ajo.
            05 FILLER                     PIC   X(43) VALUE
                 'Nombre d''ajout :                           '.
            05 w-rap-ajo-nbr              PIC   ZZZBZZ9.
       *   Affichage nombre de lignes mises a jour avec succes
-       01 w-rap-maj                      PIC   X(49).
+       01 w-rap-maj.
            05 FILLER                     PIC   X(43) VALUE
                 'Nombre de mise a jour :                    '.
            05 w-rap-maj-nbr              PIC   ZZZBZZ9.
       *   Nombre de lignes supprimees avec succes
-       01 w-rap-sup                      PIC   X(49).
+       01 w-rap-sup.
            05 FILLER                     PIC   X(43) VALUE
                 'Nombre de lignes supprimees :              '.
            05 w-rap-sup-nbr              PIC   ZZZBZZ9.
       *   Nombre de lignes rejetees
-       01 w-rap-rej                      PIC   X(49).
+       01 w-rap-rej.
            05 FILLER                     PIC   X(43) VALUE
                 'Nombre de lignes rejetees :                '.
            05 w-rap-rej-nbr              PIC   ZZZBZZ9.
       *   Nombre de lignes traitees avec succes
-       01 w-rap-tot                      PIC   X(49).
+       01 w-rap-tot.
            05 FILLER                     PIC   X(43) VALUE
                 'Nombre de lignes totales :                 '.
            05 w-rap-tot-nbr              PIC   ZZZBZZ9.
@@ -108,7 +108,7 @@
            PERFORM TRT UNTIL w-fin-fic-oui
            PERFORM FIN
            PERFORM COMPTE-RENDU-EXECUTION
-           GOBACK.
+           GOBACK
            .
 
       *****************************************************************
@@ -128,7 +128,7 @@
       *****************************************************************
        TRT.
            DISPLAY 'MET-LEC, enregistrement fic. pilotage'
-           READ F-PIL
+           READ pilote
                AT END SET w-fin-fic-oui  TO TRUE
                NOT AT END PERFORM TRT-ENR
            END-READ
@@ -226,7 +226,7 @@
        VRF-PRO-ABS.
            DISPLAY 'Verification existence prospect'
            MOVE 'SELECT'                 TO tlmcpil-fct
-           CALL 'TMLPPRO1'               USING tlmcpil cppro
+           CALL 'TLMPPRO1'               USING tlmcpil cppro
            SET w-pro-abs                 TO TRUE
            IF tlmcpil-rc = '10' THEN
                SET w-pro-pre             TO TRUE
@@ -296,12 +296,12 @@
       *****************************************************************
       * Verification du code retour contenu dans tlmcpil-rc
       *   - Code '00': tout va bien
-      *   - Autre : une erreur s'est produite ==> affichage tlmpil-msg
+      *   - Autre : une erreur s'est produite ==> affichage tlmcpil-msg
       *****************************************************************
        VRF-COD-RET.
            SET w-err-non                 TO TRUE
            IF tlmcpil-rc NOT = '00' THEN
-             DISPLAY 'MET-ERR <' tlmpil-rc '><' tlmpil-msg '>'
+             DISPLAY 'MET-ERR <' tlmcpil-rc '><' tlmcpil-msg '>'
              SET w-err-oui               TO TRUE
       *      Erreur rencontree : j'incremente le compteur
              ADD 1                         TO w-cpt-err
@@ -463,16 +463,20 @@
                                        TO w-enr-log
            WRITE f-log                 FROM w-enr-log
       *    2 sauts de ligne
-           WRITE f-log                 FROM ''
-           WRITE f-log                 FROM ''
+           MOVE ' '                    TO f-log
+           WRITE f-log
+           MOVE ' '                    TO f-log
+           WRITE f-log
            .
 
       *****************************************************************
       * Enregistrement de l'enqueue
       *****************************************************************
        ENQUEUE.
-           WRITE f-log                 FROM ''
-           WRITE f-log                 FROM ''
+           MOVE ' '                    TO f-log
+           WRITE f-log
+           MOVE ' '                    TO f-log
+           WRITE f-log
       *    Notification que le compte-rendu est bel et bien termine
            MOVE '.------------------------------------------------.'
                                        TO w-enr-log
