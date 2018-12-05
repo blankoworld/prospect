@@ -45,11 +45,14 @@
            EVALUATE tlmcpil-fct
              WHEN 'SELECT'          
                 PERFORM LECTURE
-             WHEN 'UPDATE'          PERFORM MAJ
-             WHEN 'DELETE'          PERFORM SUPPRESSION
-             WHEN 'ADD'             PERFORM AJOUT
-             WHEN OTHER             PERFORM ERREUR
-      *      TODO: faire fx ERREUR + aligner PERFORM
+             WHEN 'UPDATE'
+                PERFORM MAJ
+             WHEN 'DELETE'
+                PERFORM SUPPRESSION
+             WHEN 'ADD'
+                PERFORM AJOUT
+             WHEN OTHER
+                PERFORM ERREUR
            END-EVALUATE
            .
 
@@ -148,6 +151,7 @@
 
        AJOUT.
            DISPLAY 'PHY-AJO'                     WITH NO ADVANCING
+           MOVE cppro1-ent-ajo-id                TO tlmpro-id
            MOVE cppro1-ent-ajo-nom               TO tlmpro-nom
            MOVE cppro1-ent-ajo-rue               TO tlmpro-addr-rue
            MOVE cppro1-ent-ajo-cp                TO tlmpro-addr-cp
@@ -163,7 +167,7 @@
                    ADDR_CP,
                    ADDR_VILLE)
                VALUES (
-                   :tlmcon-id,
+                   :tlmpro-id,
                    :tlmpro-nom,
                    :tlmpro-addr-rue,
                    :tlmpro-addr-cp,
@@ -210,6 +214,20 @@
                  INTO tlmcpil-msg
                END-STRING
            END-EVALUATE
+           .
+
+      *****************************************************************
+      * Erreur 90 : fonction demandee inconnue
+      *****************************************************************
+       ERREUR.
+           MOVE '90'                             TO tlmcpil-rc
+           STRING
+             'PHY-PRO Fonction inconnue <'
+             tlmcpil-fct
+             '>'
+             DELIMITED SIZE
+             INTO tlmcpil-msg
+           END-STRING
            .
 
        END PROGRAM TLMPPRO1.

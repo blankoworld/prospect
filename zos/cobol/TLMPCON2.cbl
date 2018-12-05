@@ -47,6 +47,7 @@
              WHEN 'UPDATE'          PERFORM MAJ
              WHEN 'DELETE'          PERFORM SUPPRESSION
              WHEN 'ADD'             PERFORM AJOUT
+             WHEN OTHER             PERFORM ERREUR
            END-EVALUATE
            .
 
@@ -226,6 +227,20 @@
                  INTO tlmcpil-msg
                END-STRING
            END-EVALUATE
+           .
+      
+      *****************************************************************
+      * Erreur 90 : fonction demandee inconnue
+      *****************************************************************
+       ERREUR.
+           MOVE '90'                             TO tlmcpil-rc
+           STRING
+             'PHY-PRO Fonction inconnue <'
+             tlmcpil-fct
+             '>'
+             DELIMITED SIZE
+             INTO tlmcpil-msg
+           END-STRING
            .
 
        END PROGRAM TLMPCON2.
