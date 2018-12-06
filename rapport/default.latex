@@ -345,6 +345,7 @@ $endif$
 $endif$
 
 \begin{document}
+
 $if(title)$
 % Suppression du numéro de page en bas
 \thispagestyle{empty}
@@ -353,7 +354,30 @@ $if(title)$
 $if(beamer)$
 \frame{\titlepage}
 $else$
+% 2 logos en haut
+\begin{figure}[t]
+    \begin{minipage}[c]{.46\linewidth}
+    \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
+    \end{minipage} \hfill
+    \begin{minipage}[c]{.46\linewidth}
+    \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
+    \end{minipage}
+\end{figure}
+% titre de la page de garde
 \maketitle
+% 3 logos en bas (b!), séparés par des espaces (\hfill) de 3.5cm de large
+\begin{figure}[b]
+    \begin{minipage}[c]{.30\linewidth}
+    \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+    \end{minipage} \hfill
+    \begin{minipage}[c]{.30\linewidth}
+    \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+    \end{minipage} \hfill
+    \begin{minipage}[c]{.30\linewidth}
+    \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+    \end{minipage}
+\end{figure}
+
 $endif$
 $if(abstract)$
 \begin{abstract}
