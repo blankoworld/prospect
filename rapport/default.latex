@@ -379,29 +379,48 @@ $if(title)$
 $if(beamer)$
 \frame{\titlepage}
 $else$
-% 2 logos en haut
-\begin{figure}[t]
-    \begin{minipage}[c]{.46\linewidth}
-    \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
-    \end{minipage} \hfill
-    \begin{minipage}[c]{.46\linewidth}
-    \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
-    \end{minipage}
-\end{figure}
-% titre de la page de garde
-\maketitle
-% 3 logos en bas (b!), séparés par des espaces (\hfill) de 3.5cm de large
-\begin{figure}[b]
-    \begin{minipage}[c]{.30\linewidth}
-    \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
-    \end{minipage} \hfill
-    \begin{minipage}[c]{.30\linewidth}
-    \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
-    \end{minipage} \hfill
-    \begin{minipage}[c]{.30\linewidth}
-    \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
-    \end{minipage}
-\end{figure}
+
+% Päge de garde
+\begin{titlepage}
+    % Encart en haut à gauche
+    \setlength{\unitlength}{1mm}
+    \begin{picture}(0,0)
+       \put(-40,0){\includegraphics[width=40mm]{bordure_haut_gauche.png}}
+    \end{picture}
+
+    % 2 logos en haut
+    \begin{figure}[t]
+        \begin{minipage}[c]{.46\linewidth}
+        \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
+        \end{minipage} \hfill
+        \begin{minipage}[c]{.46\linewidth}
+        \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
+        \end{minipage}
+    \end{figure}
+    % Affichage des infos de la page de garde
+    \centering
+    {\huge\bfseries $title$\par}
+	  \vspace{2cm}
+    {\Large\itshape Olivier \textsc{Dossmann}\par}
+	  \vfill
+    tutoré par\par
+	  Jean-Marc \textsc{Gio}
+	  \vfill
+	  {\large $date$\par}
+    % 3 logos en bas (b!), séparés par des espaces (\hfill) de 3.5cm de large
+    \begin{figure}[b]
+        \begin{minipage}[c]{.30\linewidth}
+        \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+        \end{minipage} \hfill
+        \begin{minipage}[c]{.30\linewidth}
+        \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+        \end{minipage} \hfill
+        \begin{minipage}[c]{.30\linewidth}
+        \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+        \end{minipage}
+    \end{figure}
+
+\end{titlepage}
 
 $endif$
 $if(abstract)$
