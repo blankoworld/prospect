@@ -6,7 +6,6 @@ def main():
     # liste des fichiers
     fichier_prospect = 'prospects.csv'
     fichier_contact = 'contacts.csv'
-    sortie = 'output.txt'
 
     # contenu
     colonnes_p = {
