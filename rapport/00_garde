@@ -1,6 +1,11 @@
-% D.U. Développeur Grands Systèmes\
-  Mémoire de stage\
-  Propagation des données de prospect
-% Olivier DOSSMANN
-% 17 décembre 2018
+---
+title: |
+    | D.U. Développeur Grands Systèmes
+    | Mémoire de stage
+    | Propagation des données de prospect
+author: Olivier \textsc{Dossmann}
+date: 17 décembre 2018
+version: 0.1
+tutor: Jean-Marc \textsc{Gio}
+---
 

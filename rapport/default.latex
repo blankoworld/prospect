@@ -385,7 +385,7 @@ $else$
     % Encart en haut à gauche
     \setlength{\unitlength}{1mm}
     \begin{picture}(0,0)
-       \put(-40,0){\includegraphics[width=40mm]{bordure_haut_gauche.png}}
+       \put(-35,0){\includegraphics[width=40mm]{bordure_haut_gauche.png}}
     \end{picture}
 
     % 2 logos en haut
@@ -401,12 +401,14 @@ $else$
     \centering
     {\huge\bfseries $title$\par}
 	  \vspace{2cm}
-    {\Large\itshape Olivier \textsc{Dossmann}\par}
+    {\Large\itshape $author$\par}
 	  \vfill
     tutoré par\par
-	  Jean-Marc \textsc{Gio}
+	    $tutor$
 	  \vfill
-	  {\large $date$\par}
+	  {\large $date$\par
+     Version $version$
+    }
     % 3 logos en bas (b!), séparés par des espaces (\hfill) de 3.5cm de large
     \begin{figure}[b]
         \begin{minipage}[c]{.30\linewidth}
