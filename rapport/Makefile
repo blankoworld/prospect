@@ -21,5 +21,5 @@ html: content.md
 
 clean:
 	rm -f content.md
-	rm -f before.tex
+	rm -f before.tex remerciements.tex
 	rm -f *.html *.pdf
