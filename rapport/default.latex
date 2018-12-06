@@ -362,9 +362,29 @@ $endif$
   \end{picture}
 }
 \fancyhead[RE,LO]{\leftmark}
+
+% Pied de page
+% Droite pour recto, gauche pour verso
 \fancyfoot[RE,LO]{Créé avec \LaTeX}
+% Centré quoiqu'il arrive
 \fancyfoot[CE,CO]{Olivier DOSSMANN}
-\fancyfoot[LE,RO]{Page \thepage}
+% Numéro de page : Gauche pour recto, droite pour verso
+\fancyfoot[LE]{ 
+    % Encart en bas à gauche
+    \setlength{\unitlength}{1mm}
+    \begin{picture}(0,0)
+       \put(-54,-32.5){\includegraphics[width=40mm]{bordure_bas_gauche.png}}
+    \end{picture}
+    \put(-49,-27){\textbf{\textcolor{white}{Page \thepage}}}
+}
+\fancyfoot[RO]{ 
+    % Encart en bas à droite
+    \setlength{\unitlength}{1mm}
+    \begin{picture}(0,0)
+       \put(23,-33){\includegraphics[width=40mm]{bordure_bas_droite.png}}
+    \end{picture}
+    \put(35,-27){\textbf{\textcolor{white}{Page \thepage}}}
+}
  
 \renewcommand{\headrulewidth}{2pt}
 \renewcommand{\footrulewidth}{1pt}
