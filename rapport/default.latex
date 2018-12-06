@@ -344,11 +344,36 @@ $if(logo)$
 $endif$
 $endif$
 
+% Entêtes et enqueues décoratives
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO]{
+  \setlength{\unitlength}{1mm}
+  \begin{picture}(-10,0)
+    \includegraphics[width = 30mm]{logo-open-bleu-uni-baseline-1.png}
+  \end{picture}
+}
+\fancyhead[LE]{
+  \setlength{\unitlength}{1mm}
+  \begin{picture}(0,0)
+    \put(-40,0){\includegraphics[width = 30mm]{logo-open-bleu-uni-baseline-1.png}}
+  \end{picture}
+}
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[RE,LO]{Créé avec \LaTeX}
+\fancyfoot[CE,CO]{Olivier DOSSMANN}
+\fancyfoot[LE,RO]{Page \thepage}
+ 
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{1pt}
+
 \begin{document}
 
 $if(title)$
-% Suppression du numéro de page en bas
-\thispagestyle{empty}
+% Nouveau style "fancy" pour afficher des infos de manière sexy
+\thispagestyle{fancy}
 % Arrêt de la pagination
 \pagenumbering{gobble}
 $if(beamer)$

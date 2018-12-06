@@ -14,7 +14,7 @@ before.tex: remerciements.tex newpage
 	cat newpage remerciements.tex > before.tex
 
 pdf: content.md 00_remerciements before.tex
-	pandoc -V graphics:true --template=default.latex -B before.tex --toc -V toc-title:'Sommaire' -V papersize:a4paper --from=markdown --to=latex -o "${NAME}.pdf" content.md
+	pandoc -V classoption:twoside -V graphics:true --template=default.latex -B before.tex --toc -V toc-title:'Sommaire' -V papersize:a4paper --from=markdown --to=latex -o "${NAME}.pdf" content.md
 
 html: content.md
 	pandoc --from=markdown --to=html -o "${NAME}.html" content.md
