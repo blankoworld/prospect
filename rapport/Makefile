@@ -7,6 +7,8 @@ content.md: 00_garde 01_entreprise 02_sujet 03_technique
 
 remerciements.tex: 00_remerciements
 	pandoc -V papersize:a4 --from=markdown --to=latex -o remerciements.tex 00_remerciements
+	# NE PAS ajouter les remerciements dans le sommaire (ajout d'une étoile)
+	sed -i 's/section{/section*{/' remerciements.tex
 
 before.tex: remerciements.tex newpage
 	cat newpage remerciements.tex > before.tex
