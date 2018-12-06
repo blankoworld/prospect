@@ -53,6 +53,10 @@ def main():
                     contenu_aligne = '{0:<{x}}'.format(contenu, x=nbre)
                 ligne.append(contenu_aligne)
 
+            # ajout des 279 derniers caracteres
+            filler = ' ' * 279
+            ligne.append(filler)
+
             if pid:
                 prospects[pid] = ligne
 
@@ -84,7 +88,7 @@ def main():
                 ligne.append(contenu_aligne)
 
             # ajout des 148 derniers caracteres
-            filler = ' ' * 148 
+            filler = ' ' * 148
             ligne.append(filler)
 
             # composition de la ligne
