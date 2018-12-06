@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+#
+# gen_pilotage.py : transformation des fichiers prospects.csv et contacts.csv
+#   en concaténation des deux.
+#   Affichage à l'écran
 import sys
 import csv
 
