@@ -367,7 +367,7 @@ $endif$
 % Droite pour recto, gauche pour verso
 \fancyfoot[RE,LO]{Créé avec \LaTeX}
 % Centré quoiqu'il arrive
-\fancyfoot[CE,CO]{Olivier DOSSMANN}
+\fancyfoot[CE,CO]{$author$}
 % Numéro de page : Gauche pour recto, droite pour verso
 \fancyfoot[LE]{ 
     % Encart en bas à gauche
