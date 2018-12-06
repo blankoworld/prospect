@@ -346,6 +346,10 @@ $endif$
 
 \begin{document}
 $if(title)$
+% Suppression du numéro de page en bas
+\thispagestyle{empty}
+% Arrêt de la pagination
+\pagenumbering{gobble}
 $if(beamer)$
 \frame{\titlepage}
 $else$
@@ -359,11 +363,22 @@ $endif$
 $endif$
 
 $for(include-before)$
+% Suppression du numéro de page
+\thispagestyle{empty}
 $include-before$
 
 $endfor$
 $if(toc)$
+% Suppression du numéro de page
+\thispagestyle{empty}
+% Saut de page pour commencer le sommaire dans une nouvelle page
 \newpage
+% Suppression du numéro de page
+\thispagestyle{empty}
+% Reprise de la pagination
+\pagenumbering{arabic}
+% Démarre la pagination à 1
+\setcounter{page}{0}
 $if(toc-title)$
 \renewcommand*\contentsname{$toc-title$}
 $endif$
