@@ -14,7 +14,7 @@ before.tex: remerciements.tex newpage
 	cat newpage remerciements.tex > before.tex
 
 pdf: content.md before.tex
-	pandoc -B before.tex -V colorlinks -V mainfont=Georgia -V sansfont=Arial -V monofont="Bitstream Vera Sans Mono" -V fontsize=11pt -V classoption:twoside --number-sections -V graphics --template=default.latex --toc -V toc-title:'Sommaire' -V papersize:a4 --from=markdown --to=latex -o "${NAME}.pdf" content.md
+	pandoc -B before.tex -V colorlinks -V fontfamily="utopia" -V fontsize=11pt -V classoption:twoside --number-sections -V graphics --template=default.latex --toc -V toc-title:'Sommaire' -V papersize:a4 --from=markdown --to=latex -o "${NAME}.pdf" content.md
 
 html: content.md
 	pandoc --from=markdown --to=html -o "${NAME}.html" content.md
