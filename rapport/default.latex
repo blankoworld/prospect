@@ -375,7 +375,7 @@ $endif$
     \begin{picture}(0,0)
        \put(-54,-32.5){\includegraphics[width=40mm]{bordure_bas_gauche.png}}
     \end{picture}
-    \put(-49,-27){\textbf{\textcolor{white}{Page \thepage}}}
+    \put(-47,-27){\textbf{\textcolor{white}{Page \thepage}}}
 }
 \fancyfoot[RO]{ 
     % Encart en bas à droite
