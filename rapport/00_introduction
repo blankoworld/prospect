@@ -1,3 +1,34 @@
+
 # Introduction
 
-TODO: petite introduction
+Temps. Nous courrons après le temps. Tous. Pourquoi le temps ? En entreprise
+c'est un axe primordial. Finir vos tâches rapidement fait la différence avec
+vos concurrents. Gagner quelques jours, semaines ou mois permet souvent de se
+ détacher avec brio du reste du marché.\
+ Ce temps est principalement récupéré lors de l'automatisation de traitement 
+ fastidieux pour l'être humain. Et c'est là qu'intervient la machine !
+
+ Dans les années 60 est arrivé le COBOL, un langage simple à prendre en main 
+ pour un débutant, facile à mettre en œuvre et rapide à exécuter. Il a été
+  adopté notamment dans le domaine bancaire, mais pas seulement. Une forte
+ demande s'est faite ressentir dans les domaines de la gestion, comme nous le
+ verrons avec l'entreprise Mélusine.
+
+Aujourd'hui cet environnement nécessite toujours maintenance et évolution. Et 
+c'est là qu'entre en jeu notre formation **D.U. Développeur Grands Systèmes**.
+Elle consiste à préparer les personnes au monde du COBOL, à la création
+d'applications de gestion et à la prise de recul nécessaire à la bonne
+élboration d'un système de gestion complexe et fourni.
+ 
+C'est dans cette optique et ce contexte que nous avons abordé le projet
+confié par l'entreprise Mélusine ; dont nous parlerons plus tard.
+
+Ce mémoire présentera dans un premier temps la structure d'accueil Open pour 
+laquelle j'ai travaillé. Cela passera par quelques chiffres, une revue de
+ l'organisation et d'autres éléments supplémentaires.\
+Puis nous aborderons le côté fonctionnel du projet. Évidemment nous commencerons
+ par décrire la mission qui nous a été confiée, la gestion du projet, les 
+ contraintes existantes, etc.
+Nous continuerons ensuite par une analyse technique du projet en traitant les 
+notions de base de données, d'environnement technique et d'outils supplémentaires
+utilisés pour mener à bien la mission.
