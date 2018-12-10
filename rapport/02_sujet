@@ -11,7 +11,7 @@ La Société Open met en place des scénarios similaires afin de permettre à se
 
 ## Le projet
 
-Mélusine est une entreprise de vente charge son pôle commercial de faire du prospect.\
+Mélusine est une entreprise de vente et charge son pôle télémarketing de faire du prospect.\
 Chaque jour les salariés mettent à jour la base de prospect avec les dernières informations recueillies.\
 La mise à jour de la base principale vis-à-vis de la quantité d'informations pose en effet des problèmes de connexions concurrentes.\
 Mais pas seulement. Il y a aussi des temps de traitement de plus en plus longs et la qualité de l'information se désagrège au fil du temps.
@@ -20,11 +20,42 @@ Mélusine souhaite désormais fonctionner en 2 étapes :
   * utiliser un fichier de prospect pendant la journée avec les mises à jour de la base prospect
   * mettre à jour la base de données principale pendant la nuit afin qu'elle soit prête pour ses salariés au lendemain
 
-Notre travail consiste donc à mettre au point la solution énoncée.
+Notre travail consiste donc à proposer une solution adaptée à la problématique posée.
+
+## Acteurs du projet
+
+La singularité de ce projet réside dans les personnes exceptionnelles qui ont participé à cette formidable aventure : 
+
+fruit| price
+-----|-----:
+apple|**2.05**
+pear|1.37
+orange|3.09
+
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{c|ccccccc}
+\hline
+& col1 & col2 & col3 & col4 & col5 & col6 & col7 \\
+\hline
+\rowcolor{LightCyan}
+row1& 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 \\
+row2& 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 \\
+\rowcolor{LightCyan}
+row3& 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 \\
+row4& 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 \\
+\rowcolor{LightCyan}
+row5& 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 \\
+row6& 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 & 0.2 \\
+\hline
+\end{tabular}
+\end{table}
 
 ## TODO : la suite
 
   * acteurs du projet
   * délais
   * plan du projet
+  * contraintes
 
