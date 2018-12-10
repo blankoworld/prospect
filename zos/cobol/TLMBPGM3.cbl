@@ -46,19 +46,19 @@
       *   Compteurs divers pour l'edition du compte-rendu de traitement
        01 w-compteur.
       *       Nombre de lignes lues en entree
-           05 w-cpt-lec                  PIC   9(06) COMP-3.
+           05 w-cpt-lec                  PIC  S9(07) COMP-3.
       *       Nombre d'erreurs rencontrees
-           05 w-cpt-err                  PIC   9(06) COMP-3.
+           05 w-cpt-err                  PIC  S9(07) COMP-3.
       *       Nombre de lignes ajoutees avec succes
-           05 w-cpt-ajo                  PIC   9(06) COMP-3.
+           05 w-cpt-ajo                  PIC  S9(07) COMP-3.
       *       Nombre de lignes mises a jour avec succes
-           05 w-cpt-maj                  PIC   9(06) COMP-3.
+           05 w-cpt-maj                  PIC  S9(07) COMP-3.
       *       Nombre de lignes supprimees avec succes
-           05 w-cpt-sup                  PIC   9(06) COMP-3.
+           05 w-cpt-sup                  PIC  S9(07) COMP-3.
       *       Nombre de lignes rejetees
-           05 w-cpt-rej                  PIC   9(06) COMP-3.
+           05 w-cpt-rej                  PIC  S9(07) COMP-3.
       *       Nombre de lignes traitees avec succes
-           05 w-cpt-tot                  PIC   9(06) COMP-3.
+           05 w-cpt-tot                  PIC  S9(07) COMP-3.
       *
       *   Affichage nombre lignes lues en entree
        01 w-rap-lec.
@@ -120,7 +120,13 @@
            OPEN INPUT pilote
            SET w-err-non                 TO TRUE
       *    Initialisation de tous les compteurs
-           MOVE ALL ZERO                 TO w-compteur
+           MOVE ZERO TO w-cpt-lec
+                        w-cpt-err
+                        w-cpt-ajo
+                        w-cpt-maj
+                        w-cpt-sup
+                        w-cpt-rej
+                        w-cpt-tot
            .
 
       *****************************************************************
