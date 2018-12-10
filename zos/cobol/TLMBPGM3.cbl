@@ -228,7 +228,7 @@
            MOVE 'SELECT'                 TO tlmcpil-fct
            CALL 'TLMPPRO1'               USING tlmcpil cppro
            SET w-pro-abs                 TO TRUE
-           IF tlmcpil-rc = '10' THEN
+           IF tlmcpil-rc = '00' THEN
                SET w-pro-pre             TO TRUE
            END-IF
            .
@@ -269,7 +269,7 @@
       * Mise a jour d'un contact
       *****************************************************************
        MAJ-CON.
-           DISPLAY 'Mise a jour Contact <' cpcon-ent-lec-id '>'
+           DISPLAY 'Mise a jour Contact <' f-pil-con-id '>'
            MOVE f-pil-con-id             TO cpcon-ent-maj-id
            MOVE f-pil-con-nom            TO cpcon-ent-maj-nom
            MOVE f-pil-con-prenom         TO cpcon-ent-maj-prenom
@@ -304,7 +304,7 @@
              DISPLAY 'MET-ERR <' tlmcpil-rc '><' tlmcpil-msg '>'
              SET w-err-oui               TO TRUE
       *      Erreur rencontree : j'incremente le compteur
-             ADD 1                         TO w-cpt-err
+             ADD 1                       TO w-cpt-err
            END-IF
            .
 

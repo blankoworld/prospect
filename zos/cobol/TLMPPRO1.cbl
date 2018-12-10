@@ -36,7 +36,7 @@
            GOBACK.
 
        INIT.
-           DISPLAY 'PHY-init' tlmcpil-fct
+           DISPLAY 'PHY-PRO-init ' tlmcpil-fct
            MOVE SPACES TO cppro1-sor
            .
 
@@ -57,7 +57,7 @@
            .
 
        LECTURE.
-           DISPLAY 'PHY-LEC'          WITH NO ADVANCING
+           DISPLAY 'PHY-PRO-LEC'      WITH NO ADVANCING
            MOVE cppro1-ent-lec-id     TO tlmpro-id
            IF cppro1-ent-lec-id NOT = SPACES THEN
              DISPLAY ' <' tlmpro-id '>'
@@ -86,14 +86,14 @@
              END-IF
            ELSE
              MOVE '01' TO tlmcpil-rc
-             MOVE 'PHY-LEC: code prospect vide.'
+             MOVE 'PHY-PRO-LEC: code prospect vide.'
                TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
 
        MAJ.
-           DISPLAY 'PHY-MAJ'                     WITH NO ADVANCING
+           DISPLAY 'PHY-PRO-MAJ'                 WITH NO ADVANCING
            MOVE cppro1-ent-maj-id                TO tlmpro-id
            IF cppro1-ent-maj-id NOT = SPACES THEN
              DISPLAY ' <' tlmpro-id '>'
@@ -114,13 +114,14 @@
              PERFORM VERIF-SQLCODE
            ELSE
              MOVE '01'                           TO tlmcpil-rc
-             MOVE 'PHY-MAJ: code prospect vide.' TO tlmcpil-msg
+             MOVE 'PHY-PRO-MAJ: code prospect vide.'
+                                                 TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
 
        SUPPRESSION.
-           DISPLAY 'PHY-SUP'                     WITH NO ADVANCING
+           DISPLAY 'PHY-PRO-SUP'                 WITH NO ADVANCING
            MOVE cppro1-ent-sup-id                TO tlmpro-id
            IF cppro1-ent-sup-id NOT = SPACES THEN
              DISPLAY ' <' tlmpro-id '>'
@@ -135,22 +136,22 @@
              IF SQLCODE = 0 OR SQLCODE = 100 THEN
                MOVE '00'                         TO tlmcpil-rc
                STRING
-                 'OK, DEL <'
-                 tlmpro-id
-                 '>'
-                 DELIMITED size
+                 'OK, DEL <'         DELIMITED SIZE
+                 tlmpro-id           DELIMITED SIZE
+                 '>'                 DELIMITED size
                  INTO tlmcpil-msg
                END-STRING
              END-IF
            ELSE
              MOVE '01'                           TO tlmcpil-rc
-             MOVE 'PHY-SUP: code prospect vide.' TO tlmcpil-msg
+             MOVE 'PHY-PRO-SUP: code prospect vide.'
+                                                 TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
 
        AJOUT.
-           DISPLAY 'PHY-AJO'                     WITH NO ADVANCING
+           DISPLAY 'PHY-PRO-AJO'                 WITH NO ADVANCING
            MOVE cppro1-ent-ajo-id                TO tlmpro-id
            MOVE cppro1-ent-ajo-nom               TO tlmpro-nom
            MOVE cppro1-ent-ajo-rue               TO tlmpro-addr-rue
@@ -180,10 +181,9 @@
              MOVE tlmpro-id                      TO cppro1-sor-ajo-id
              MOVE '00'                           TO tlmcpil-rc
              STRING
-               'OK, AJO <'
-               cppro1-sor-ajo-id
-               '>'
-               DELIMITED size
+               'OK, AJO <'         DELIMITED SIZE
+               cppro1-sor-ajo-id   DELIMITED SIZE
+               '>'                 DELIMITED size
                INTO tlmcpil-msg
              END-STRING
            END-IF
@@ -193,6 +193,7 @@
            CONTINUE.
 
        VERIF-SQLCODE.
+           DISPLAY 'PHY-PRO, verif. code SQL <' sqlcode '>'
            EVALUATE sqlcode
              WHEN 0
                MOVE '00'                         TO tlmcpil-rc
@@ -206,11 +207,10 @@
                MOVE sqlcode                      TO sqlcode-txt
                MOVE sqlerrm                      TO sqlerr-msg
                STRING
-                 'ERR, <'
-                 sqlcode-txt
-                 '><'
-                 sqlerr-msg
-                 DELIMITED SIZE
+                 'ERR, <'          DELIMITED SIZE
+                 sqlcode-txt       DELIMITED SIZE
+                 '><'              DELIMITED SIZE
+                 sqlerr-msg        DELIMITED SIZE
                  INTO tlmcpil-msg
                END-STRING
            END-EVALUATE
@@ -222,10 +222,9 @@
        ERREUR.
            MOVE '90'                             TO tlmcpil-rc
            STRING
-             'PHY-PRO Fonction inconnue <'
-             tlmcpil-fct
-             '>'
-             DELIMITED SIZE
+             'PHY-PRO Fonction inconnue <' DELIMITED SIZE
+             tlmcpil-fct                   DELIMITED SIZE
+             '>'                           DELIMITED SIZE
              INTO tlmcpil-msg
            END-STRING
            .

@@ -36,7 +36,7 @@
            GOBACK.
 
        INIT.
-           DISPLAY 'PHY-init' tlmcpil-fct
+           DISPLAY 'PHY-init ' tlmcpil-fct
            MOVE SPACES TO cpcon2-sor
            .
 
@@ -52,7 +52,7 @@
            .
 
        LECTURE.
-           DISPLAY 'PHY-LEC'          WITH NO ADVANCING
+           DISPLAY 'PHY-CON-LEC'      WITH NO ADVANCING
            MOVE cpcon2-ent-lec-id     TO tlmcon-id
            IF cpcon2-ent-lec-id NOT = SPACES THEN
              DISPLAY ' <' tlmcon-id '>'
@@ -87,14 +87,14 @@
              END-IF
            ELSE
              MOVE '01' TO tlmcpil-rc
-             MOVE 'PHY-LEC: code contact vide.'
+             MOVE 'PHY-CON-LEC: code contact vide.'
                TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
 
        MAJ.
-           DISPLAY 'PHY-MAJ'                     WITH NO ADVANCING
+           DISPLAY 'PHY-CON-MAJ'                 WITH NO ADVANCING
            MOVE cpcon2-ent-maj-id                TO tlmcon-id
            IF cpcon2-ent-maj-id NOT = SPACES THEN
              DISPLAY ' <' tlmcon-id '>'
@@ -119,13 +119,13 @@
              PERFORM VERIF-SQLCODE
            ELSE
              MOVE '01'                           TO tlmcpil-rc
-             MOVE 'PHY-MAJ: code contact vide.'  TO tlmcpil-msg
+             MOVE 'PHY-CON-MAJ: contact vide.'   TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
 
        SUPPRESSION.
-           DISPLAY 'PHY-SUP'                     WITH NO ADVANCING
+           DISPLAY 'PHY-CON-SUP'                 WITH NO ADVANCING
            MOVE cpcon2-ent-sup-id                TO tlmcon-id
            IF cpcon2-ent-sup-id NOT = SPACES THEN
              DISPLAY ' <' tlmcon-id '>'
@@ -140,23 +140,23 @@
              IF SQLCODE = 0 OR SQLCODE = 100 THEN
                MOVE '00'                         TO tlmcpil-rc
                STRING
-                 'OK, DEL <'
-                 tlmcon-id
-                 '>'
-                 DELIMITED size
+                 'OK, DEL <'       DELIMITED SIZE
+                 tlmcon-id         DELIMITED SIZE
+                 '>'               DELIMITED size
                  INTO tlmcpil-msg
                END-STRING
              END-IF
            ELSE
              MOVE '01'                           TO tlmcpil-rc
-             MOVE 'PHY-SUP: code contact vide.'  TO tlmcpil-msg
+             MOVE 'PHY-CON-SUP: contact vide.'   TO tlmcpil-msg
              DISPLAY ' None'
            END-IF
            .
 
        AJOUT.
-           DISPLAY 'PHY-AJO'                     WITH NO ADVANCING
+           DISPLAY 'PHY-CON-AJO'                 WITH NO ADVANCING
            MOVE cpcon2-ent-ajo-id                TO tlmcon-id
+           DISPLAY ' <' tlmcon-id '>'
            MOVE cpcon2-ent-ajo-nom               TO tlmcon-nom
            MOVE cpcon2-ent-ajo-prenom            TO tlmcon-prenom
            MOVE cpcon2-ent-ajo-tel               TO tlmcon-tel
@@ -165,38 +165,33 @@
            MOVE cpcon2-ent-ajo-pid               TO tlmcon-pid
       *    Requete de creation en recuperant l'ID de l'enregistrement
            EXEC SQL
-           SELECT ID
-             INTO :tlmcon-id
-             FROM FINAL TABLE (
-               INSERT INTO TRAIN04.TLMCON (
-                 ID,
-                 NOM,
-                 PRENOM,
-                 TEL,
-                 MEL,
-                 NOTE,
-                 PID)
-               VALUES (
-                   :tlmcon-id,
-                   :tlmcon-nom,
-                   :tlmcon-prenom,
-                   :tlmcon-tel,
-                   :tlmcon-mel,
-                   :tlmcon-note,
-                   :tlmcon-pid)
-                   )
+             INSERT INTO TRAIN04.TLMCON (
+               ID,
+               NOM,
+               PRENOM,
+               TEL,
+               MEL,
+               NOTE,
+               PID)
+             VALUES (
+                 :tlmcon-id,
+                 :tlmcon-nom,
+                 :tlmcon-prenom,
+                 :tlmcon-tel,
+                 :tlmcon-mel,
+                 :tlmcon-note,
+                 :tlmcon-pid)
            END-EXEC
            PERFORM VERIF-SQLCODE
       *    Code retour du succes
-           IF SQLCODE = 0 OR SQLCODE = 100 THEN
+           IF SQLCODE = 0 THEN
       *      L'ID de l'enregistrement precedemment cree ira en sortie
              MOVE tlmcon-id                      TO cpcon2-sor-ajo-id
              MOVE '00'                           TO tlmcpil-rc
              STRING
-               'OK, AJO <'
-               cpcon2-sor-ajo-id
-               '>'
-               DELIMITED size
+               'OK, AJO <'       DELIMITED size
+               cpcon2-sor-ajo-id DELIMITED size
+               '>'               DELIMITED size
                INTO tlmcpil-msg
              END-STRING
            END-IF
@@ -206,10 +201,11 @@
            CONTINUE.
 
        VERIF-SQLCODE.
+           DISPLAY 'PHY-CON, code SQL <' sqlcode '>'
            EVALUATE sqlcode
              WHEN 0
                MOVE '00'                         TO tlmcpil-rc
-               MOVE 'PHY-CON, Requete:  succes.' TO tlmcpil-msg
+               MOVE 'PHY-CON, Requete: succes.'  TO tlmcpil-msg
              WHEN 100
                MOVE '10'                         TO tlmcpil-rc
                MOVE 'PHY-CON, Code 100 non trouve ou fin cur.'
@@ -219,11 +215,10 @@
                MOVE sqlcode                      TO sqlcode-txt
                MOVE sqlerrm                      TO sqlerr-msg
                STRING
-                 'ERR, <'
-                 sqlcode-txt
-                 '><'
-                 sqlerr-msg
-                 DELIMITED SIZE
+                 'ERR, <'          DELIMITED SIZE
+                 sqlcode-txt       DELIMITED SIZE
+                 '><'              DELIMITED SIZE
+                 sqlerr-msg        DELIMITED SIZE
                  INTO tlmcpil-msg
                END-STRING
            END-EVALUATE
@@ -235,10 +230,9 @@
        ERREUR.
            MOVE '90'                             TO tlmcpil-rc
            STRING
-             'PHY-PRO Fonction inconnue <'
-             tlmcpil-fct
-             '>'
-             DELIMITED SIZE
+             'PHY-PRO Fonction inconnue <' DELIMITED SIZE
+             tlmcpil-fct                   DELIMITED SIZE
+             '>'                           DELIMITED SIZE
              INTO tlmcpil-msg
            END-STRING
            .
