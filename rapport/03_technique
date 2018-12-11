@@ -1,19 +1,166 @@
 
 # Spécifications techniques
 
-TODO : quelques phrases pour décrire le plan et ce dont nous parlerons
+Le sujet étant posé, je me suis attaché à la phase d'étude et de réalisation de la mission. \
+Le projet ayant un fonctionnement particulier et mon expérience dans les banques étant inexistante, j'ai pris du recul afin de mener à bien la tâche confiée.
 
-## Structure de la base de données
+Après avoir listé les éléments de l'environnement de travail nous montrerons la structure de la base de données (avec ses tables) pour finalement terminer par expliquer le fonctionnement des programmes batchs.
 
-TODO : Mettre PROSPECT/CONTACT avec liens entre eux (utiliser SSMS pour avoir une impression écran)
+## Environnement de travail
 
-## Environnement technique
+Je me suis appuyé sur du matériel, des logiciel, un environnement de test et une nommenclature de nommage afin d'avancer sur mes tâches. Voyons-en le détail.
 
-TODO : outils utilisés, nommage des fichiers dans z/OS
+### Matériel
 
-  * C = Copy
-  * B = Batch
-  * P = Physique
-  * M = Métier
-  * L = Logique
-  * D = Données
+À mon poste, malgré la présence d'un ordinateur portable fourni par l'entreprise, j'ai préféré - avec l'accord de mon maître de stage - utiliser ma machine : un **ordinateur portable** (core i5-7200U @ 2.50Ghz, 8Go de RAM).
+
+### Logiciels
+
+Ladite machine était dotée d'un **système ArchLinux** sous lequel j'ai utilisé les logiciels suivants : 
+
+  * **nVim** comme environnement de développement : aussi bien l'édition du code source que la rédaction de ce document, des slides de la soutenance, etc.
+  * **Makefile** comme outil d'automatisation de tâches : pour la mise en conformité des fichiers avant l'envoi sous z/OS, la création de ce document, la création des slides de la soutenance, la création de diagrammes, etc.
+  * **pandoc** comme outil de génération de ce document
+  * **LaTeX** pour l'impression de ce document
+  * **git** pour garder l'historique de mes modifications sur les programmes
+  * **graphviz** comme outil de génération de graphes
+  * **chromium** comme navigateur web alternatif pour accéder à la plateforme distante de Blondeau Informatique
+  * **boxes** pour générer les boîtes en caractères ASCII disposées dans le compte-rendu des programmes batchs
+
+### Dépôt de source
+
+L'ensemble du code source du projet est disponible sur le site [Github](https://github.com/) à l'adresse suivante : 
+
+\quad
+\qrcode{https://github.com/blankoworld/prospect/} : https://github.com/blankoworld/prospect/
+\qquad
+
+### Système z/OS distant
+
+Notre environnement de test était la plateforme fourni par Blondeau Informatique. C'est un système z/OS (mainframe) disposant, entre autre, d'une base de données DB2 et d'un système d'écran nommé TSO/ISPF.
+
+La limitation de la plupart des noms à 8 caractères, il a fallu mettre en place une politique de nommage.
+
+### Nomenclature de nommage
+
+Afin de s'y retrouver, nous avons explosé les noms de fichiers en plusieurs groupes de caractères :
+
+  * (3 carac.) nom de l'**application**
+  * (1 carac.) **type de fichier** parmi : 
+    * C comme COPY (pour les fichiers utilisés par divers programmes)
+    * B comme BATCH (pour les fichiers utilisés comme source de programmes batchs)
+    * P comme PHYSIQUE (fichiers de la couche physique dont nous parlerons dans le [fonctionnement des programmes](#fonctionnement-batch))
+    * L comme LOGIQUE (fichiers de la couche logique)
+    * M comme METIER (fichiers de la couche métier)
+    * D comme DONNEES (fichiers contenant des données)
+  * (4 carac.) **champ libre**, généralement l'objet sur lequel on pointe, par exemple si ça concerne les prospects, on met PRO1.
+
+Par exemple le programme batch n°3 de notre mission est nommé **TLMBPGM3** : 
+
+  * **TLM** comme TéléMarketing
+  * **B** comme BATCH car ce sont les sources du programme batch qui se lancera
+  * **PGM3** pour PROGRAMME n°3 qui est le troisième programme de notre application
+
+Une exception réside cependant pour les fichiers d'exécution des programmes qui commencent par **EX** (comme **EX**écutable).
+
+Par exemple : **EX04PGM3** qui exécute le binaire du programme n°3. **04** n'est qu'un nommage issu de l'utilisation de z/OS dans laquelle nous avions chacun un identifiant spécifique. Le mien étant 04.
+
+Mes prédécesseurs ayant utilisé des trigrammes pour leur nom de développeur, j'ai dû m'adapter et m'accaparer de celui-ci : **ODO** (Olivier \textsc{Dossmann}).
+
+Le système a été quasiment le même pour la création des éléments de la base de données nommée DB2.
+
+## Base de données
+
+Le système de gestion de base de données relationnelle disponible sous l'environnement de test z/OS se nomme **DB2**.
+
+Son fonctionnement implique une structure particulière et la création de tables qui peuvent avoir des contraintes d'intégrités.
+
+### Structure
+
+TODO: trouver les noms
+
+  * plan
+  * stogroup
+  * base de données BI04BASE
+  * tablespace
+  * table
+  * clé primaires
+
+TLMPLAN = plan DB2
+stogroup BI04STGR
+
+TRAIN04.TLMPRO = table prospect
+TRAIN04.TLMCON = table contact
+
+TODO: Mettre PROSPECT/CONTACT avec liens entre eux (utiliser SSMS pour avoir une impression écran)
+
+### Détail des tables
+
+Un tableau décrivant la structure de nos tables sera plus parlant qu'un long paragraphe.
+
+D'abord la table concernant les prospects.
+
+Colonne|Libellé|Type|Paramètres
+-------|-------|----|----------:
+ID|Identifiant|CHAR(06)|Clé primaire, obligatoire
+NOM|Nom prospect|CHAR(35)|Obligatoire
+ADDR_RUE|Rue|CHAR(40)| -
+ADDR_CP|Code postal|CHAR(05)| -
+ADDR_VILLE|Ville|CHAR(35)| -
+
+: Description de la table **TRAIN04.TLMPRO**
+
+Puis celle concernant les contacts, attachés à un et un seul prospect.
+
+Colonne|Libellé|Type|Paramètres
+-------|-------|----|----------:
+ID|Identifiant|CHAR(06)|Clé primaire, obligatoire
+NOM|Nom contact|CHAR(35)| -
+PRENOM|Prénom contact|CHAR(35)| -
+TEL|Numéro de téléphone|CHAR(10)| -
+MEL|Adresse courriel|CHAR(80)| -
+NOTE|Notes diverses|CHAR(80)| -
+PID|Identifiant prospect|CHAR(06)|Obligatoire
+
+: Description de la table **TRAIN04.TLMCON**
+
+Maintenant que les bases de données sont établies, nous avons de quoi développer nos programmes !
+
+## Fonctionnement des programmes {#fonctionnement-batch}
+
+Le fonctionnement envisagé est d'utiliser une série de programmes les uns après les autres, le tout formant un cycle complet et réutilisable sur toute la durée d'exploitation des données par l'entreprise Mélusine. \
+Par ailleurs les [spécifications fonctionnelles](#specifications-fonctionnelles) impliquent une structure en 3 couches qui discutent entre elles par des messages.
+
+Pour comprendre tout cela nous utiliserons des schémas, du pseudo-code et des tableaux.
+
+### Relations
+
+Le cycle d'utilisation peut se résumer ainsi : 
+
+  1. **PGM1** décharge de la base de données de télémarketing au matin (Prospect et Client)
+  2. Copie de sauvegarde pour traitement ultérieur
+  3. En journée les salariés de l'entreprise Mélusine utilisent un outil qui crée un fichier **MAJ** de mise à jour des prospects et des contacts
+  4. À la sortie des salariés, un programme (dit script « JCL ») se lance, trie la copie de sauvegarde, trie le fichier **MAJ**, et exécute le programme **PGM2** qui va créer un fichier **PILOTAGE** contenant les instructions de mise à jour de la base de données
+  5. À la finalisation de **PGM2**, un troisième et dernier programme **PGM3** lit le fichier **PILOTAGE** pour mettre à jour la base de données
+  6. On recommence à 1. en déchargeant la base de données le matin.
+
+On peut voir ce fonctionnement dans le schéma suivant : 
+
+TODO : schéma des relations entre programmes
+
+Pour le programme **PGM3** qui contacte la base de données, il va falloir passer par plusieurs couches dont nous allons parler maintenant.
+
+### Structure en plusieurs couches
+
+### Structure des messages
+
+
+### Pseudo-code
+
+  * relations
+  * structure en plusieurs couches
+  * structure des messages
+  * pseudo-code
+
+
+04 DEV + tests + recette (livrables)

@@ -15,7 +15,7 @@ Mélusine est une entreprise de vente et charge son pôle télémarketing de fai
 Chaque jour les salariés mettent à jour la base de prospect avec les dernières informations recueillies.\
 La mise à jour de la base principale vis-à-vis de la quantité d'informations pose en effet des problèmes de connexions concurrentes.\
 Mais pas seulement. Il y a aussi des temps de traitement de plus en plus longs et la qualité de l'information se désagrège au fil du temps.
-Mélusine souhaite désormais fonctionner en 2 étapes : 
+Mélusine souhaite désormais fonctionner en 2 étapes : 
 
   * utiliser un fichier de prospect pendant la journée avec les mises à jour de la base prospect
   * mettre à jour la base de données principale pendant la nuit afin qu'elle soit prête pour ses salariés au lendemain
@@ -93,7 +93,7 @@ Il est évident que d'autres problèmes seront à résoudre au fur et à mesure 
 
 Voyons désormais le détail des spécifications fonctionnelles.
 
-## Spécifications fonctionnelles
+## Spécifications fonctionnelles {#specifications-fonctionnelles}
 
 Reçues en début de projet, les spécifications fonctionnelles permettent de se focaliser sur l'essentiel du projet.
 
@@ -114,8 +114,8 @@ Il conviendra de tenir compte des contraintes suivantes :
   * il faudra s'assurer que les données à insérer soient au bon format attendu
   * afficher systématquement dans la SYSOUT du job le compte-rendu d'exécution du programme. C'est-à-dire des informations du type : 
     * nom du programme, date d'exécution du job
-    * pour les fichiers : nombre d'enregistrements lus/écrits
-    * pour les accès aux bases de DB2 : le nombre de select, update, insert, etc.
+    * pour les fichiers : nombre d'enregistrements lus/écrits
+    * pour les accès aux bases de DB2 : le nombre de select, update, insert, etc.
   * en cas d'anomalie le programme doit s'arrêter et afficher les informations nécessaires pour connaître l'origine du plantage (n° de l'enregistrement, nom du prospect/contact, etc.)
   * le principe de l'application batch consistera à : 
     1. récupérer dans un fichier les données contenues dans les tables DB2 prospect et clients

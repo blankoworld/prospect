@@ -394,6 +394,9 @@ $endif$
 \definecolor{Gray}{gray}{0.9}
 \definecolor{LightCyan}{rgb}{0.88,1,1}
 
+% Utilisation des QRCODES
+\usepackage{qrcode}
+
 \begin{document}
 
 $if(title)$
