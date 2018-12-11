@@ -8,7 +8,7 @@ Après avoir listé les éléments de l'environnement de travail nous montrerons
 
 ## Environnement de travail
 
-Je me suis appuyé sur du matériel, des logiciel, un environnement de test et une nommenclature de nommage afin d'avancer sur mes tâches. Voyons-en le détail.
+Je me suis appuyé sur du matériel, des logiciels, un environnement de test et une nomenclature de nommage afin d'avancer sur mes tâches. Voyons-en le détail.
 
 ### Matériel
 
@@ -77,22 +77,17 @@ Son fonctionnement implique une structure particulière et la création de table
 
 ### Structure
 
-TODO: trouver les noms
+Dans le cadre de l'utilisation de **DB2**, il a fallu définir plusieurs éléments : 
 
-  * plan
-  * stogroup
-  * base de données BI04BASE
-  * tablespace
-  * table
-  * clé primaires
+  * un « stogroup », nommé **BI04STGR**
+  * une base de données nommée **BI04BASE**
+  * contenant un espace « tablespace » nommé **BI04TT04**
+  * contenant deux tables :
+    * **TRAIN04.TLMPRO** pour la table des prospects avec une clé primaire sur ID
+    * **TRAIN04.TLMCON** pour la table des contacts avec une clé primaire sur ID et une clé étrangère sur PID
+  * un plan nommé **TLMPLAN**
 
-TLMPLAN = plan DB2
-stogroup BI04STGR
-
-TRAIN04.TLMPRO = table prospect
-TRAIN04.TLMCON = table contact
-
-TODO: Mettre PROSPECT/CONTACT avec liens entre eux (utiliser SSMS pour avoir une impression écran)
+TODO: Schéma des 2 tables
 
 ### Détail des tables
 
@@ -124,6 +119,8 @@ PID|Identifiant prospect|CHAR(06)|Obligatoire
 
 : Description de la table **TRAIN04.TLMCON**
 
+Le champ **PID** est une contrainte d'intégrité référentielle pointant sur le champ ID de la table **TRAIN04.TLMPRO**.
+
 Maintenant que les bases de données sont établies, nous avons de quoi développer nos programmes !
 
 ## Fonctionnement des programmes {#fonctionnement-batch}
@@ -146,21 +143,101 @@ Le cycle d'utilisation peut se résumer ainsi :
 
 On peut voir ce fonctionnement dans le schéma suivant : 
 
-TODO : schéma des relations entre programmes
+TODO: schéma des relations entre programmes
 
 Pour le programme **PGM3** qui contacte la base de données, il va falloir passer par plusieurs couches dont nous allons parler maintenant.
 
 ### Structure en plusieurs couches
 
+**PGM1** et **PGM3** sont des programmes qui, entre autre, devront contacter la base de données. Dans le domaine de la finance il est d'usage de séparer les applications en plusieurs couches. Faisant ainsi des programmes qui discutent entre eux pour échanger les informations et en regroupant des actions similaires.
+
+Ce modèle particulier est souvent présenté en 3 couches : 
+
+  * la couche des **accesseurs physiques** qui s'occupe des relations avec la base de données
+  * la couche des **accesseurs logiques** qui s'occupe de choisir les demandes nécessaires aux accesseurs physiques, par exemple pour regrouper plusieurs jeux de données de la base de données
+  * la couche métier qui s'occupe de regrouper des particularités du domaine métier, par exemple la gestion des immobilisations au sein d'un cabinet comptable
+
+TODO: schéma en couche
+
 ### Structure des messages
 
+Le modèle en couche implique des allers-retours entre elles. Et donc des messages avec une certaine organisation.
+
+Concernant la discussion entre les différents programmes, j'ai opté pour 2 structures distinctes : 
+
+  * les appels et les retours communs à tous les programmes
+  * les structures d'accueil des données échangées propres à chaque fonction par exemple
+
+: Organisation de la structure d'appel commune
+
+Champ|Longueur|Description
+-----|--------|-----------:
+TLMCPIL-FCT|6|Fonction appelée (aller)
+TLMCPIL-RC|2|Code retour (retour)
+TLMCPIL-MSG|40|Message de détail (retour)
+
+J'ai décidé d'utiliser les mots clés suivants pour la fonction appelée : 
+
+  * SELECT, pour récupérer un enregistrement d'une table
+  * UPDATE, pour mettre à jour un enregistrement de la table
+  * DELETE, pour supprimer un enregistrement
+  * ADD, pour ajouter un enregistrement
+
+En fonction de chaque mot clé, le programme de la **couche physique** utilisera des éléments spécifiques.
+
+Prenons un exemple, pour la **fonction qui permet de récupérer un enregistrement** d'un prospect (fonction *SELECT*) : 
+
+  * ENT-LEC-ID, identifiant en entrée pour la lecture d'un prospect
+  * SOR-LEC-NOM, nom du prospect récupéré en sortie de la lecture
+  * SOR-LEC-RUE, rue du prospect récupéré en sortie de la lecture
+  * et ainsi de suite pour le reste des informations
+
+Pour les autres appels, cela fonctionnera de la même manière.
+
+C'est avec cette structure que nous pouvons ainsi élaborer les différents programmes.
 
 ### Pseudo-code
 
-  * relations
-  * structure en plusieurs couches
-  * structure des messages
-  * pseudo-code
+Eu égard les deux derniers paragraphes, nous allons exprimer le fonctionnement de **PGM3** (programme de lecture d'un fichier de pilotage pour mettre à jour la base de données) en utilisant du pseudo-code.
 
+```
+Principal.
+  Initialisation du programme.
+  Traiter chaque ligne du fichier de pilotage jusqu'à la fin du fichier.
+  Fermeture du programme.
 
-04 DEV + tests + recette (livrables)
+Initialisation.
+  Mettre à 0 les compteurs de traitement (lecture, insertion, etc.).
+  Ouvrir le fichier de pilotage.
+
+Traitement.
+  Lire la ligne.
+  Analyser la première lettre.
+  Quand la lettre est A, procéder à l'ajout des données.
+  Quand la lettre est M, procéder à la mise à jour des données.
+  Quand la lettre est S, procéder à la suppression des données.
+  Cas échéant, procéder à l'affichage d'un message d'erreur.
+  Incrémenter le compteur de lecture.
+
+Ajout.
+  Appeler la couche physique avec les informations à enregistrer.
+  Étudier le code retour.
+  Si erreur alors
+    affichage de l'erreur
+    incrémenter le compteur d'erreur
+  sinon
+    incrémenter le compteur d'ajout
+    incrémenter le compteur de réussite
+
+Fermeture.
+  Fermer le fichier de pilotage.
+  Affichage du compte-rendu de traitement.
+```
+
+On procède d'une manière similaire pour les traitements de mise à jour et de suppression d'un enregistrement.
+
+Globalement le fonctionnement rejoint cette façon de faire pour l'appareillage (programme **PGM2** qui lit 2 fichiers en entrées et construit un fichier de pilotage).
+
+----
+
+Après avoir délimité notre sujet, posé les ressources mises à disposition et décrit là où nous souhaitons en venir, il est temps de passer dans la phase de réalisation du projet.
