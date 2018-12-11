@@ -22,24 +22,122 @@ Mélusine souhaite désormais fonctionner en 2 étapes :
 
 Notre travail consiste donc à proposer une solution adaptée à la problématique posée.
 
-## Acteurs du projet
+## Ressources
 
-Au cours de mes pérégrinations j'ai eu l'occasion d'échanger avec plusieurs personnes sur le projet, notamment : 
+Afin de mener à bien la mission j'ai eu à disposition de nombreuses ressources.
 
+### Ressources humaines
 
-La singularité de ce projet réside dans les personnes exceptionnelles qui ont participé à cette formidable aventure : 
+Parmi elles, les ressources humaines ont été d'une aide précieuse :
 
-
-Identité|Rôle
+Personnes | Société | Description
 -----|-----|-----:
-\textsc{Firmino} Thiago|Consultant 
+Blondeau Informatique|Blondeau Informatique|Référent technique z/OS
+\textsc{Firmino} Thiago|Open|Ingénieur/réalisateur, \
+                             spécialiste du sujet confié
+\textsc{Gio} Jean-Marc |Open|Chef de projet et \
+                             maître de stage
+\textsc{Julieno} Florent|Open|Expert COBOL Mainframe \
+                              domaine banque/assurances
+\textsc{Leduc} Hervé|Serfa Mulhouse|Jury d'évaluation
+\textsc{Priester} Damien|Open|Ingénieur/réalisateur, \
+                              senior COBOL Mainframe
+\textsc{Schott} Jean-Louis|Serfa Mulhouse|Jury d'évaluation
 
 : acteurs du projet
 
-## TODO : la suite
+À cela s'ajoute la communication très forte entre toutes les personnes de la promotion S4 de l'année 2018 dans leurs entreprises respectives.
 
-  * acteurs du projet
-  * délais
-  * plan du projet
-  * contraintes
+### Ressources informatiques
 
+Avoir des compétences et des savoirs à disposition est bénéfique, mais avoir du matériel et des outils est encore mieux. \
+Ainsi ont été mis à disposition :
+
+  * **Environnement z/OS**, fourni par Blondeau Informatique
+  * **Virtel**, interface d'accès à z/OS via navigateur web
+  * **Accès Internet**
+  * **Ordinateur portable** muni des outils auxquels je suis habitué
+
+C'est avec ces ressources que nous avons abordés la mission.
+
+## Délais
+
+La formation délimite le projet à la seule période du stage. Cependant plusieurs dates sont à retenir : 
+
+  * **20 novembre**, début du projet
+  * **12 décembre**, date de rendu du mémoire de stage
+  * **14 décembre**, fin du projet
+  * **17 décembre**, soutenance
+
+Il va donc falloir gérer un planning pour évaluer ce qu'il est possible d'achever durant cette courte période.
+
+## Planning prévisionnel
+
+Comme nous le disions en [Introduction](#introduction), le temps est une denrée précieuse. Et c'est pourquoi l'entreprise est habituée à faire des diagrammes de Gantt. C'est un outil utile, au moins pour visualiser rapidement la faisabilité d'un projet.
+
+TODO: diagramme de Gantt
+
+Ce diagramme met en évidence les contraintes de temps, mais d'autres contraintes résident.
+
+## Contraintes
+
+Hormis les dates fixes du projet, nous rencontrons les contraintes suivantes : 
+
+  * connexion internet faible, ce qui occassionne parfois des déconnexions. Or l'environnement z/OS est distant.
+  * l'environnement z/OS distant a eu des périodes d'instabilités que ce soit au niveau des accès, du fonctionnement ou de la rapidité d'exécution.
+  * l'accès à une plateforme de retour sur le service z/OS a été assez tardif : **30 novembre**
+  * les normes bancaires imposent une structure particulière des programmes
+  * être seul pour le développement de l'application risque d'être un facteur limitant
+
+Il est évident que d'autres problèmes seront à résoudre au fur et à mesure de l'avancement du projet.
+
+Voyons désormais le détail des spécifications fonctionnelles.
+
+## Spécifications fonctionnelles
+
+Reçues en début de projet, les spécifications fonctionnelles permettent de se focaliser sur l'essentiel du projet.
+
+Les voici mot pour mot.
+
+L'application sera une application batch qui aura pour fonction de mettre à jour les tables de données prospects et contacts à partir d'un fichier de données, c'est-à-dire :
+
+  * la création de nouveaux prospects et de leurs informations de contact associé
+  * la modification d'un prospect et/ou de ses informations de contact en cas de données à modifier
+  * la suppression d'un prospect et de ses informations de contact
+
+Il conviendra de tenir compte des contraintes suivantes : 
+
+  * un prospect peut avoir plusieurs informations de contacts de différents types
+  * le fichier de données servant à la mise à jour des tables contriandra les informations prospect et les informations de contact
+  * gérer le cas où le fichier de données contient des doublons
+  * gérer le cas où le fichier est vide
+  * il faudra s'assurer que les données à insérer soient au bon format attendu
+  * afficher systématquement dans la SYSOUT du job le compte-rendu d'exécution du programme. C'est-à-dire des informations du type : 
+    * nom du programme, date d'exécution du job
+    * pour les fichiers : nombre d'enregistrements lus/écrits
+    * pour les accès aux bases de DB2 : le nombre de select, update, insert, etc.
+  * en cas d'anomalie le programme doit s'arrêter et afficher les informations nécessaires pour connaître l'origine du plantage (n° de l'enregistrement, nom du prospect/contact, etc.)
+  * le principe de l'application batch consistera à : 
+    1. récupérer dans un fichier les données contenues dans les tables DB2 prospect et clients
+    2. comparer les données obtenues des tables avec le fichier de données à mettre à jour et générer un fichier contenant les mises à jour à effectuer (suppression, modification et insertion)
+    3. avec le fichier précédemment généré, mettre à jour les tables Prospect et Contact.
+
+Ces spécifications donnent lieu à des livrables spécifiques.
+
+## Livrables attendus
+
+Les documents attendus à l'issu du stage sont les suivants : 
+
+  * Spécifications techniques
+  * Fichiers informatiques sources
+    * Script de c réation des tables DB2
+    * JCL
+    * Programmes batch
+    * Accesseurs métiers/logiques/physiques
+  * Documents de test :
+    * Fichier de données utilisé pour effectuer les tests
+    * Liste des différents cas de tests et résultat
+
+----
+
+C'est de la réunion des spécifications fonctionnelles et des ressources fournies au regard des contraintes présentes que sont nées les spécifications techniques que j'ai réalisées.
