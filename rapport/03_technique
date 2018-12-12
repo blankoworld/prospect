@@ -26,6 +26,7 @@ Ladite machine était dotée d'un **système ArchLinux** sous lequel j'ai utilis
   * **graphviz** comme outil de génération de graphes
   * **chromium** comme navigateur web alternatif pour accéder à la plateforme distante de Blondeau Informatique
   * **boxes** pour générer les boîtes en caractères ASCII disposées dans le compte-rendu des programmes batchs
+  * **etherpad** comme application web pour les prises de notes régulières et la communication distante avec le tuteur de stage
 
 ### Dépôt de source
 
@@ -41,7 +42,7 @@ Notre environnement de test était la plateforme fourni par Blondeau Informatiqu
 
 La limitation de la plupart des noms à 8 caractères, il a fallu mettre en place une politique de nommage.
 
-### Nomenclature de nommage
+### Nomenclature de nommage {#nomenclature}
 
 Afin de s'y retrouver, nous avons explosé les noms de fichiers en plusieurs groupes de caractères :
 

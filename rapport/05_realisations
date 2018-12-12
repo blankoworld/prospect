@@ -1,12 +1,56 @@
 
 # Réalisations
 
+Suite aux spécifications techniques je me suis lancé dans la mise en place de l'environnement de test, puis le développement dit « dur » pour finalement utiliser des fichiers de test sur mes programmes. Ce périple laisse également une expérience quant aux obstacles rencontrés.
+
 ## Environnement de test
+
+Pour rappel l'environnement de test a été un environnement z/OS (de type mainframe). Afin de permettre la compilation et l'utilisation des programmes développés il a fallu mettre en place un certain nombre de fichiers et dossiers parmi : 
+
+  * un outil de **conversion** de mes programmes du **format Unix vers le format MS-DOS cp850** (à l'aide de **Makefile**)
+  * **TRAIN04.OPEN.COBOL**, un fichier de type PDS sous z/OS qui contient l'ensemble des programmes à tester, des scripts pour compiler et des scripts pour exécuter le programme
+    * **BINDPKG** pour la création de *BIND* sous DB2 des différents programmes nécessitant l'accès à DB2
+    * **CPCOBOL** pour le choix du code source en COBOL à compiler
+    * **CPCODB** pour le choix du code source en COBOL à compiler avec pré-compilation DB2
+    * **DCLxyz** pour les fichiers contenant une déclaration et une structure COBOL décrivant la table DB2 qu'on souhaite utiliser dans un programme COBOL (utilisé généralement comme **clause COPY**. Ce sont des fichiers générés après une configuration spécifique dans l'outil z/OS DCLGEN
+      * DCLCON pour la table TRAIN04.TLMCON
+      * DCLPRO pour la table TRAIN04.TLMPRO
+    * **EX04PGMx** où X est le numéro du programme à exécuter
+    * **TLMBxyz** pour les fichiers batch (décrit dans le chapitre sur la [nomenclature de nommage](#nomenclature)), couche métier
+    * **TLMCxyz** pour les fichiers utilisés en **clause COPY**
+    * **TLMLxyz** pour les programmes de la couche logique
+    * **TLMPxyz** pour les programmes de la couche physique
+  * **TRAIN04.OPEN.DBRM**, un fichier de type PDS sous z/OS qui contient les binaires exécutables par la base de données DB2 concernant notamment la couche physique
+  * **TRAIN04.OPEN.JCLLIB**, un fichier de type PDS sous z/OS disposant des scripts de type JCL contenant les étapes nécessaires à la compilation d'un programme COBOL voire d'un programme COBOL comportant des requêtes SQL nécessitant une pré-compilation avec les membres suivants : 
+    * **PCOBOL** pour la compilation de programmes COBOL
+    * **PCODB** pour les programmes COBOL nécessitant la pré-compilation
+  * **TRAIN04.OPEN.LOADLIB**, un fichier de type LIBRARY sous z/OS contenant les binaires des programmes COBOL
+  * **TRAIN04.OPEN.abcdexyz**, où ABCDEXYZ est à remplacer par le nom de différents fichiers d'entrée/sortie pour les différents programmes, par exemple : 
+    * **ORIGINE** pour le fichier où est déchargé la base de données
+    * **MAJ** pour le fichier de mise à jour des prospects
+    * **PILOTAGE** pour le fichier de pilotage
+    * **LOGINGx** pour les fichiers de journalisation des événements des différents programmes. Où X est à remplacer par le numéro du programme (par exemple pour *PGM3* ça sera *LOGING3*)
+
+La mise en place de tout ceci a dû prendre environ 3 à 4 jours, notamment pour divers contretemps dont nous parlerons [plus loin](#obstacles).
+
+Une fois cet environnement prêt, je me suis concentré sur le développement des différentes couches.
 
 ## Développement
 
+Plus d'une semaine a été consacrée à la création des deux programmes composant la couche physique. **TLMPPRO1** et **TLMPCON2**, respectivement l'accesseur physique à la table TRAIN04.TLMPRO (prospects) et l'accesseur physique à la table TRAIN04.TLMCON (contacts). Mais aussi le programme batch PGM3 qui lit un fichier de pilotage pour répercuter les modifications dans la base de données.
+
+A ensuite été fait le programme d'appareillage PGM2 qui lit un fichier de déchargement d'une base de données
+
+TODO: schéma des clauses COPY de TLMPPRO1 et TLMPCON2.
+
+
+
 ## Tests
 
-## Obstacles franchis
 
 
+## Obstacles rencontrés {#obstacles}
+
+  * seul
+  * couche logique à ne pas faire (trop de boulot pour peu d'apprentissage)
+  * compréhension plus longue que prévue des différentes couches
