@@ -2,8 +2,8 @@ NAME = memoire
 
 all: pdf html
 
-content.md: 00_garde 00_introduction 01_entreprise 02_sujet 03_technique 99_conclusion
-	cat 00_garde newpage 00_introduction newpage 01_entreprise newpage 02_sujet newpage 03_technique newpage 99_conclusion > content.md
+content.md: 00_garde 00_introduction 01_entreprise 02_sujet 03_technique 05_realisations 99_conclusion
+	cat 00_garde newpage 00_introduction newpage 01_entreprise newpage 02_sujet newpage 03_technique newpage 05_realisations newpage 99_conclusion > content.md
 
 remerciements.tex: 00_remerciements
 	pandoc -V papersize:a4 --from=markdown --to=latex -o remerciements.tex 00_remerciements
