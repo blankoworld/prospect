@@ -11,13 +11,13 @@ La Société Open met en place des scénarios similaires afin de permettre à se
 
 ## Le projet
 
-Mélusine est une entreprise de vente et charge son pôle télémarketing de faire du prospect.\
-Chaque jour les salariés mettent à jour la base de prospect avec les dernières informations recueillies.\
+Mélusine est une entreprise de vente et charge son pôle télémarketing de faire de la prospection.\
+Chaque jour les salariés mettent à jour la base de prospects avec les dernières informations recueillies.\
 La mise à jour de la base principale vis-à-vis de la quantité d'informations pose en effet des problèmes de connexions concurrentes.\
 Mais pas seulement. Il y a aussi des temps de traitement de plus en plus longs et la qualité de l'information se désagrège au fil du temps.
 Mélusine souhaite désormais fonctionner en 2 étapes : 
 
-  * utiliser un fichier de prospect pendant la journée avec les mises à jour de la base prospect
+  * utiliser un fichier de prospects pendant la journée avec les mises à jour de la base prospects
   * mettre à jour la base de données principale pendant la nuit afin qu'elle soit prête pour ses salariés au lendemain
 
 Notre travail consiste donc à proposer une solution adaptée à la problématique posée.
@@ -77,13 +77,13 @@ Comme nous le disions en [Introduction](#introduction), le temps est une denrée
 
 TODO: diagramme de Gantt
 
-Ce diagramme met en évidence les contraintes de temps, mais d'autres contraintes résident.
+Ce diagramme met en évidence les contraintes de temps, mais d'autres résident encore.
 
 ## Contraintes
 
 Hormis les dates fixes du projet, nous rencontrons les contraintes suivantes : 
 
-  * connexion internet faible, ce qui occassionne parfois des déconnexions. Or l'environnement z/OS est distant.
+  * connexion internet faible, ce qui occasionne parfois des déconnexions. Or l'environnement z/OS est distant.
   * l'environnement z/OS distant a eu des périodes d'instabilités que ce soit au niveau des accès, du fonctionnement ou de la rapidité d'exécution.
   * l'accès à une plateforme de retour sur le service z/OS a été assez tardif : **30 novembre**
   * les normes bancaires imposent une structure particulière des programmes
@@ -108,7 +108,7 @@ L'application sera une application batch qui aura pour fonction de mettre à jou
 Il conviendra de tenir compte des contraintes suivantes : 
 
   * un prospect peut avoir plusieurs informations de contacts de différents types
-  * le fichier de données servant à la mise à jour des tables contriandra les informations prospect et les informations de contact
+  * le fichier de données servant à la mise à jour des tables contiendra les informations des prospects et les informations de contact
   * gérer le cas où le fichier de données contient des doublons
   * gérer le cas où le fichier est vide
   * il faudra s'assurer que les données à insérer soient au bon format attendu
@@ -118,9 +118,9 @@ Il conviendra de tenir compte des contraintes suivantes :
     * pour les accès aux bases de DB2 : le nombre de select, update, insert, etc.
   * en cas d'anomalie le programme doit s'arrêter et afficher les informations nécessaires pour connaître l'origine du plantage (n° de l'enregistrement, nom du prospect/contact, etc.)
   * le principe de l'application batch consistera à : 
-    1. récupérer dans un fichier les données contenues dans les tables DB2 prospect et clients
+    1. récupérer dans un fichier les données contenues dans les tables DB2 prospects et contacts
     2. comparer les données obtenues des tables avec le fichier de données à mettre à jour et générer un fichier contenant les mises à jour à effectuer (suppression, modification et insertion)
-    3. avec le fichier précédemment généré, mettre à jour les tables Prospect et Contact.
+    3. avec le fichier précédemment généré, mettre à jour les tables prospects et contacts.
 
 Ces spécifications donnent lieu à des livrables spécifiques.
 
@@ -130,7 +130,7 @@ Les documents attendus à l'issu du stage sont les suivants :
 
   * Spécifications techniques
   * Fichiers informatiques sources
-    * Script de c réation des tables DB2
+    * Script de création des tables DB2
     * JCL
     * Programmes batch
     * Accesseurs métiers/logiques/physiques
