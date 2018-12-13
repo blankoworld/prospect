@@ -13,8 +13,8 @@ Pour rappel l'environnement de test a été un environnement z/OS (de type mainf
     * **CPCOBOL** pour le choix du code source en COBOL à compiler
     * **CPCODB** pour le choix du code source en COBOL à compiler avec pré-compilation DB2
     * **DCLxyz** pour les fichiers contenant une déclaration et une structure COBOL décrivant la table DB2 qu'on souhaite utiliser dans un programme COBOL (utilisé généralement comme **clause COPY**. Ce sont des fichiers générés après une configuration spécifique dans l'outil z/OS DCLGEN
-      * DCLCON pour la table TRAIN04.TLMCON
-      * DCLPRO pour la table TRAIN04.TLMPRO
+      1. DCLCON pour la table TRAIN04.TLMCON
+      2. DCLPRO pour la table TRAIN04.TLMPRO
     * **EX04PGMx** où X est le numéro du programme à exécuter
     * **TLMBxyz** pour les fichiers batch (décrit dans le chapitre sur la [nomenclature de nommage](#nomenclature)), couche métier
     * **TLMCxyz** pour les fichiers utilisés en **clause COPY**
@@ -39,12 +39,48 @@ Une fois cet environnement prêt, je me suis concentré sur le développement de
 
 Plus d'une semaine a été consacrée à la création des deux programmes composant la couche physique. **TLMPPRO1** et **TLMPCON2**, respectivement l'accesseur physique à la table TRAIN04.TLMPRO (prospects) et l'accesseur physique à la table TRAIN04.TLMCON (contacts). Mais aussi le programme batch PGM3 qui lit un fichier de pilotage pour répercuter les modifications dans la base de données.
 
-TODO: schéma des clauses COPY de TLMPPRO1 et TLMPCON2.
-
 Pour constater le bon fonctionnement de l'ensemble des couches je me suis permis de créer un programme COBOL de test qui fait appel aux programmes de ma couche physique. Après un franc succès, le programme batch PGM3 a été composé.\
 J'ai utilisé l'outil **boxes** pour améliorer l'entête du compte-rendu d'exécution de programme.
 
-TODO: afficher compte-rendu (exemple)
+\newpage
+
+```
+                      \\\///
+                     / _  _ \
+                   (! (.)(.) !)
+.----------------.OOOo--()--oOOO.----------------.
+!                                                !
+!            COMPTE-RENDU D'EXECUTION            !
+!            -------------------------           !
+!                                                !
+! Programme :         TLMBPGM3                   !
+! Developpeur :       ODO                        !
+! Environnement :     BIZ1                       !
+! Date d'execution :  11/12/2018 a 17H12         !
+.----------------.oooO---------------------------.
+                  (   )   Oooo.
+                   \ (    (   )
+                    \_)    ) /
+                          (_/
+
+
+
+Compteurs de lecture(s) du fichier de mise a jour
+-------------------------------------------------
+
+Nombre de lectures :                            20
+Nombre d'ajout :                                 6
+Nombre de mise a jour :                          8
+Nombre de lignes supprimees :                    2
+Nombre de lignes rejetees :                      4
+-------------------------------------------------
+Nombre de lignes totales :                      16
+
+
+.------------------------------------------------.
+!     F I N   D E   C O M P T E  -  R E N D U    !
+.------------------------------------------------.
+```
 
 A ensuite été fait le programme d'appareillage PGM2 qui lit un fichier de déchargement d'une base de données, un fichier de mise à jour et génère le fichier de pilotage. Ce type de programme est souvent employé dans les banques, d'où l'exercice proposé.
 
@@ -76,7 +112,7 @@ Mes études m'avaient appris à utiliser un modèle de type **MVC** (Modèles - 
   * \textsc{Julieno} Florent
   * \textsc{Priester} Damien
 
-Au début du stage j'ai également perdu du temps sur l'utilisation des machines proposées. Le choix de ma machine - déjà installée - a été solvateur !\
+Au début du stage j'ai également perdu du temps sur l'utilisation des machines proposées. Le choix de ma machine - déjà installée - a été solvateur !\
 Mais pas seulement, en effet les nombreuses déconnexions de Virtel pour z/OS, les comptes suspendus par moment, la connexion internet ayant peu de bande passante, la patience a été d'une grande aide.
 
 Ensuite le domaine des banques m'étant totalement inconnu, M. \textsc{Julieno} et M. \textsc{Priester} ont eu des conseils formateurs ! On a discuté longuement de plusieurs solutions en fonction des situations. Bien que cela ait parfois pris du temps, je considère ces moments comme étant une expérience de beaucoup de valeur et riche de conseils. Par exemple sur le nom des variables, le format d'affichage, la présentation du code, la manière de créer des structures d'affichage, etc.
