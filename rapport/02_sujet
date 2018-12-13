@@ -75,7 +75,7 @@ Il va donc falloir gérer un planning pour évaluer ce qu'il est possible d'ache
 
 Comme nous le disions en [Introduction](#introduction), le temps est une denrée précieuse. Et c'est pourquoi l'entreprise est habituée à faire des diagrammes de Gantt. C'est un outil utile, au moins pour visualiser rapidement la faisabilité d'un projet.
 
-TODO: diagramme de Gantt
+![Diagramme de Gantt prévisionnel](gantt.png)
 
 Ce diagramme met en évidence les contraintes de temps, mais d'autres résident encore.
 
