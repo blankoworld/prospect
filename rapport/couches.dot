@@ -1,0 +1,8 @@
+digraph G {
+CP [label="Couche physique"];
+CL [label="Couche logique"];
+CM [label="Couche métier"];
+
+CM -> CL;
+CL -> CP;
+}

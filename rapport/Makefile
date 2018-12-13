@@ -13,13 +13,22 @@ remerciements.tex: 00_remerciements
 before.tex: remerciements.tex newpage
 	cat newpage remerciements.tex > before.tex
 
-pdf: content.md before.tex
+couches.png: couches.dot
+	dot -T png couches.dot -o couches.png
+
+cycle_programmes.png: cycle_programmes.dot
+	dot -T png cycle_programmes.dot -o cycle_programmes.png
+
+genimages: couches.png cycle_programmes.png
+
+pdf: genimages content.md before.tex
 	pandoc -B before.tex -V colorlinks -V fontfamily="utopia" -V fontsize=11pt -V classoption:twoside --number-sections -V graphics --template=default.latex --toc -V toc-title:'Sommaire' -V papersize:a4 --from=markdown --to=latex -o "${NAME}.pdf" content.md
 
-html: content.md
+html: genimages content.md
 	pandoc --from=markdown --to=html -o "${NAME}.html" content.md
 
 clean:
 	rm -f content.md
 	rm -f before.tex remerciements.tex
 	rm -f ${NAME}.html ${NAME}.pdf
+	rm -f couches.png cycle_programmes.png

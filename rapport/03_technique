@@ -56,6 +56,8 @@ Afin de s'y retrouver, nous avons explosé les noms de fichiers en plusieurs gro
     * D comme DONNEES (fichiers contenant des données)
   * (4 carac.) **champ libre**, généralement l'objet sur lequel on pointe, par exemple si ça concerne les prospects, on met PRO1.
 
+\newpage
+
 Par exemple le programme batch n°3 de notre mission est nommé **TLMBPGM3** : 
 
   * **TLM** comme TéléMarketing
@@ -88,7 +90,7 @@ Dans le cadre de l'utilisation de **DB2**, il a fallu définir plusieurs éléme
     * **TRAIN04.TLMCON** pour la table des contacts avec une clé primaire sur ID et une clé étrangère sur PID
   * un plan nommé **TLMPLAN**
 
-TODO: Schéma des 2 tables
+![Schéma de données des tables TLMPRO et TLMCON](tables.png){ width=80% }
 
 ### Détail des tables
 
@@ -122,6 +124,8 @@ PID|Identifiant prospect|CHAR(06)|Obligatoire
 
 Le champ **PID** est une contrainte d'intégrité référentielle pointant sur le champ ID de la table **TRAIN04.TLMPRO**.
 
+\newpage
+
 Maintenant que les bases de données sont établies, nous avons de quoi développer nos programmes !
 
 ## Fonctionnement des programmes {#fonctionnement-batch}
@@ -144,7 +148,12 @@ Le cycle d'utilisation peut se résumer ainsi :
 
 On peut voir ce fonctionnement dans le schéma suivant : 
 
-TODO: schéma des relations entre programmes
+![Schéma des relations entre programmes, clauses COPY et fichiers](cycle_programmes.png)
+
+En vert les clauses COPY.\
+En rouge les programmes de la couche logique et métier.\
+En jaune les fichiers.\
+En bleu les programmes de la couche physique.
 
 Pour le programme **PGM3** qui contacte la base de données, il va falloir passer par plusieurs couches dont nous allons parler maintenant.
 
@@ -158,7 +167,7 @@ Ce modèle particulier est souvent présenté en 3 couches :
   * la couche des **accesseurs logiques** qui s'occupe de choisir les demandes nécessaires aux accesseurs physiques, par exemple pour regrouper plusieurs jeux de données de la base de données
   * la couche métier qui s'occupe de regrouper des particularités du domaine métier, par exemple la gestion des immobilisations au sein d'un cabinet comptable
 
-TODO: schéma en couche
+![Schéma des dépendances entre les différentes couches](couches.png){ width=25% }
 
 ### Structure des messages
 

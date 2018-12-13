@@ -8,6 +8,7 @@ Projet de stage pour le prospect client dans la Société Open
 
   * texlive-core
   * texlive-qrcode
+  * graphviz
 
 ## Génération du rapport
 

@@ -1,0 +1,65 @@
+digraph G {
+
+node[colorscheme=paired12];
+
+// Clauses copy
+node[shape=hexagon, style=filled, fillcolor=3, color=black];
+TLMCPRO1 [shape=hexagon];
+DCLPRO [shape=hexagon];
+TLMCCON2 [shape=hexagon];
+DCLCON [shape=hexagon];
+TLMCPIL [shape=hexagon];
+
+// Couche physique
+node[fillcolor=1]
+TLMPPRO1 [shape=oval];
+TLMPCON2 [shape=oval];
+
+// Programmes
+node[fillcolor=5]
+TLMBPGM1 [shape=oval];
+TLMBPGM2 [shape=oval];
+TLMBPGM3 [shape=oval];
+
+// Fichiers
+node[fillcolor=11]
+ORIGINE [shape=note];
+MAJ [shape=note];
+PILOTAGE [shape=note];
+LOGING1 [shape=note];
+LOGING2 [shape=note];
+LOGING3 [shape=note];
+BDD [shape=cylinder];
+
+// Couche physique Prospect
+TLMCPIL -> TLMPPRO1;
+DCLPRO -> TLMPPRO1;
+TLMCPRO1 -> TLMPPRO1;
+
+// Couche physique Contact
+TLMCPIL -> TLMPCON2;
+DCLCON -> TLMPCON2;
+TLMCCON2 -> TLMPCON2;
+
+// PGM1 : décharge de la BDD
+TLMPPRO1 -> TLMBPGM1;
+TLMPCON2 -> TLMBPGM1;
+TLMBPGM1 -> LOGING1;
+TLMBPGM1 -> ORIGINE;
+
+// PGM2 : appareillage
+ORIGINE -> TLMBPGM2;
+MAJ -> TLMBPGM2;
+TLMBPGM2 -> LOGING2;
+TLMBPGM2 -> PILOTAGE;
+
+// PGM3 : pilotage
+PILOTAGE -> TLMBPGM3;
+TLMCPIL -> TLMBPGM3;
+TLMPPRO1 -> TLMBPGM3;
+TLMPCON2 -> TLMBPGM3;
+TLMBPGM3 -> LOGING3;
+
+BDD -> TLMBPGM1;
+TLMBPGM3 -> BDD;
+}
