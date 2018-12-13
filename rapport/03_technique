@@ -177,7 +177,7 @@ TLMCPIL-FCT|6|Fonction appelée (aller)
 TLMCPIL-RC|2|Code retour (retour)
 TLMCPIL-MSG|40|Message de détail (retour)
 
-J'ai décidé d'utiliser les mots clés suivants pour la fonction appelée : 
+J'ai décidé d'utiliser les **mots clés** suivants pour la fonction appelée : 
 
   * SELECT, pour récupérer un enregistrement d'une table
   * UPDATE, pour mettre à jour un enregistrement de la table
