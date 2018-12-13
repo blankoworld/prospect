@@ -419,17 +419,19 @@ $else$
     % 2 logos en haut
     \begin{figure}[t]
         \begin{minipage}[c]{.46\linewidth}
-        \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
+        \includegraphics[width = 60mm]{logo-syntec.jpg}
         \end{minipage} \hfill
         \begin{minipage}[c]{.46\linewidth}
-        \includegraphics[width = 60mm]{logo-open-bleu-uni-baseline-1.png}
+        \includegraphics[width = 60mm]{logo-universite-haute-alsace.png}
         \end{minipage}
     \end{figure}
     % Affichage des infos de la page de garde
     \centering
     {\huge\bfseries $title$\par}
 	  \vspace{2cm}
-    {\Large\itshape $author$\par}
+    {\Large\itshape $author$\par
+      $mail$
+    }
 	  \vfill
     tutoré par\par
 	    $tutor$
@@ -440,13 +442,13 @@ $else$
     % 3 logos en bas (b!), séparés par des espaces (\hfill) de 3.5cm de large
     \begin{figure}[b]
         \begin{minipage}[c]{.30\linewidth}
-        \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+        \includegraphics[width = 35mm]{logo-fafiec.jpg}
         \end{minipage} \hfill
         \begin{minipage}[c]{.30\linewidth}
         \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
         \end{minipage} \hfill
         \begin{minipage}[c]{.30\linewidth}
-        \includegraphics[width = 35mm]{logo-open-bleu-uni-baseline-1.png}
+        \includegraphics[width = 35mm]{logo-pole-emploi.jpg}
         \end{minipage}
     \end{figure}
 
