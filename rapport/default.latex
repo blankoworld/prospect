@@ -413,7 +413,7 @@ $else$
     % Encart en haut à gauche
     \setlength{\unitlength}{1mm}
     \begin{picture}(0,0)
-       \put(-36,0){\includegraphics[width=40mm]{bordure_haut_gauche.png}}
+       \put(-34,-8){\includegraphics[width=40mm]{bordure_haut_gauche.png}}
     \end{picture}
 
     % 2 logos en haut
@@ -455,7 +455,7 @@ $else$
     % Encart en bas à droite
     \setlength{\unitlength}{1mm}
     \begin{picture}(0,0)
-       \put(87,-70){\includegraphics[width=40mm]{bordure_bas_droite.png}}
+       \put(87,-85){\includegraphics[width=40mm]{bordure_bas_droite.png}}
     \end{picture}
 \end{titlepage}
 
