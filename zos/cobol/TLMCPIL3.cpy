@@ -4,7 +4,7 @@
       *****************************************************************
       * Clause COPY pour lire un fichier de pilotage concernant       *
       *    les prospects et leurs contacts                            *
-      * Longueur de la chaine : 800 caracteres                        *
+      * Longueur de la chaine : 801 caracteres                        *
       *****************************************************************
       *   Description de la structure du fichier de pilotage
        01 :PROG:-PIL.
