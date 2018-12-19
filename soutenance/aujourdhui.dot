@@ -1,0 +1,20 @@
+digraph G {
+
+node[colorscheme=paired12];
+
+node[style=filled, fillcolor=11, color=black, shape=cylinder]
+// BDD
+node[fillcolor=11,shape=cylinder]
+prospects;
+
+// Utilisateurs
+node[shape=doublecircle]
+Ayana;
+Damien;
+Thiago;
+
+// Liaisons
+prospects -> Ayana;
+prospects -> Damien;
+prospects -> Thiago;
+}

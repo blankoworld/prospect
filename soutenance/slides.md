@@ -5,15 +5,31 @@ date: 17 décembre 2018
 ---
 # Sujet
 * Propagation des données de prospect
-* Logos
 * DU Développeur Grands système
 
+![FAFIEC](logo-fafiec.jpg){width=98px}
+![Pôle-emploi](logo-pole-emploi.jpg){width=98px}
+![Syntec](logo-syntec.jpg){width=123px}
+![Université Haute Alsace](logo-universite-haute-alsace.png){width=123px}
+![Open](logo-open.png){width=98px}
+
 # Plan
-* ce dont nous allons parler
+* OPEN
+* Le projet
+* Fonctionnement à aujourd'hui
+* Solution envisagée
+* Planning
 
 # Open
-* cœur métier
-* dimension
+
+:::::::::::::: {.columns}
+::: {.column width="50%"}
+![collaborateurs](3775.png){width=335px}
+:::
+::: {.column width="50%"}
+![CA](CA.png){width=350px}
+:::
+::::::::::::::
 
 ::: notes
 
@@ -24,31 +40,82 @@ date: 17 décembre 2018
 :::
 
 # Projet
-* télémarketing
+* Télémarketing
 * 100 utilisateurs
-* prospection
+* Prospection
 
-# Fonctionnement actuel
-* schéma utilisateurs
+# Aujourd'hui
 
-# Solution envisagée
-* schéma fonctionnement
+![Flux actuel](aujourdhui.png)
+
+# Solution
+
+![Flux](flux.png)
 
 # Planning
-* diagramme de Gantt pour janvier
 
-# Environnement technique
-* logo logiciels
-* à quoi servent les logiciels ?
+![Diagramme de Gantt](gantt.png)
 
-# Compte-rendu
-* Montrer compte-rendu programmes
+# Technique
+
+![z/OS](zos.png)
+
+::: notes
+
+À QUOI ça sert ?
+
+:::
+
+# Résultat
+
+```
+                      \\\///
+                     / _  _ \
+                   (! (.)(.) !)
+.----------------.OOOo--()--oOOO.----------------.
+!                                                !
+!            COMPTE-RENDU D'EXECUTION            !
+!            -------------------------           !
+!                                                !
+! Programme :         TLMBPGM3                   !
+! Developpeur :       ODO                        !
+! Environnement :     BIZ1                       !
+! Date d'execution :  11/12/2018 a 17H12         !
+.----------------.oooO---------------------------.
+                  (   )   Oooo.
+                   \ (    (   )
+                    \_)    ) /
+                          (_/
+
+
+
+Compteurs de lecture(s) du fichier de mise a jour
+-------------------------------------------------
+
+Nombre de lectures :                            20
+Nombre d'ajout :                                 6
+Nombre de mise a jour :                          8
+Nombre de lignes supprimees :                    2
+Nombre de lignes rejetees :                      4
+-------------------------------------------------
+Nombre de lignes totales :                      16
+
+
+.------------------------------------------------.
+!     F I N   D E   C O M P T E  -  R E N D U    !
+.------------------------------------------------.
+```
 
 # Retours
-* retour sujet initial (évolutions possibles ?)
-* retour individuel (suite en entreprise, etc.)
+* Programme qui met à jour les données journalières
+* Signature contrat demain matin
 
-# Fin
-* image chat qui pleure
-* remerciements
-* questions ?
+# {data-background-image="cat-phone.jpg"}
+
+* Questions ?
+
+:::notes
+
+Remerciements, Question
+
+:::

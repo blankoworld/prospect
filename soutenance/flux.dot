@@ -1,0 +1,21 @@
+digraph G {
+
+node[colorscheme=paired12];
+
+node[style=filled, fillcolor=11, color=black, shape=cylinder]
+// BDD
+node[fillcolor=11,shape=cylinder]
+prospects;
+
+// Fichiers
+node[shape=note]
+ORIGINE;
+MAJ;
+PILOTAGE;
+
+// Liaisons
+prospects -> ORIGINE [label=matin];
+ORIGINE -> MAJ [label=utilisateurs];
+MAJ -> PILOTAGE [label=soir];
+PILOTAGE -> prospects [label=minuit];
+}
