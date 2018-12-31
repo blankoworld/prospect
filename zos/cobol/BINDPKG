@@ -1,0 +1,27 @@
+//TRAIN04B JOB 1,'TRAIN04',MSGCLASS=X,REGION=2M,                        JOB03188
+//       MSGLEVEL=(1,1),CLASS=A,
+//         NOTIFY=&SYSUID
+//********************************************************************* 00218400
+//*                                                                     00219200
+//JOBLIB   DD  DSN=DB2B10.SDSNLOAD,DISP=SHR                             00220000
+//*                                                                     00230000
+//********************************************************************* 00240000
+//*
+//TRT      EXEC PGM=IKJEFT01,DYNAMNBR=20
+//DBRMLIB  DD DSN=TRAIN04.OPEN.DBRM,DISP=SHR
+//SYSTSPRT DD SYSOUT=*
+//SYSOUT   DD SYSOUT=*
+//SYSIN    DD *
+ GRANT BIND, EXECUTE ON PLAN TLMPLAN TO PUBLIC;
+//SYSTSIN  DD *
+ DSN SYSTEM(DB2T)
+ BIND PACKAGE (TLMPACK) MEMBER(TLMPPRO1) +                              00560004
+      CURRENTDATA(NO) ACT(REP) ISO(CS) +                                00570001
+      ENCODING(EBCDIC) QUALIFIER(TRAIN04)
+ BIND PACKAGE (TLMPACK) MEMBER(TLMPCON2) +
+      CURRENTDATA(NO) ACT(REP) ISO(CS) +
+      ENCODING(EBCDIC) QUALIFIER(TRAIN04)
+ BIND PLAN(TLMPLAN)   PKLIST(TLMPACK.*) +                               00580004
+      CURRENTDATA(NO) ACT(REP) ISO(CS) ENCODING(EBCDIC) SQLRULES(DB2)   00590001
+//SYSPRINT DD SYSOUT=*
+//SYSUDUMP DD SYSOUT=*

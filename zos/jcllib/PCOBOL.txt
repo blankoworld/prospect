@@ -1,0 +1,77 @@
+//PCOBOL PROC  LNGPRFX='COB520',SYSLBLK=3200,                           00001000
+//             LIBPRFX='CEE',                                           00002000
+//*           LMOD='CICS.CICSTR01.STAGLOAD',                            00003000
+//             LMOD=&SYSUID..OPEN.LOADLIB,                              00003101
+//             LDB2='DB2B10.SDSNLOAD',                                  00003200
+//             MEMBER=                                                  00003300
+//*                                                                     00003400
+//********************************************************************* 00003500
+//*                                                                   * 00003600
+//*  Enterprise COBOL for z/OS                                        * 00003700
+//*               Version 4 Release 2 Modification 0                  * 00003800
+//*                                                                   * 00003900
+//*  LICENSED MATERIALS - PROPERTY OF IBM.                            * 00004000
+//*                                                                   * 00005000
+//*  5655-S71 ¸ COPYRIGHT IBM CORP. 1991, 2009                        * 00006000
+//*  ALL RIGHTS RESERVED                                              * 00007000
+//*                                                                   * 00008000
+//*  US GOVERNMENT USERS RESTRICTED RIGHTS - USE,                     * 00009000
+//*  DUPLICATION OR DISCLOSURE RESTRICTED BY GSA                      * 00010000
+//*  ADP SCHEDULE CONTRACT WITH IBM CORP.                             * 00011000
+//*                                                                   * 00012000
+//********************************************************************* 00013000
+//*                                                                     00014000
+//*  COMPILE AND LINK EDIT A COBOL PROGRAM                              00015000
+//*                                                                     00016000
+//*  PARAMETER  DEFAULT VALUE    USAGE                                  00017000
+//*   LNGPRFX   IGY.V4R2M0       PREFIX FOR LANGUAGE DATA SET NAMES     00018000
+//*   SYSLBLK   3200             BLOCKSIZE FOR OBJECT DATA SET          00019000
+//*   LIBPRFX   CEE              PREFIX FOR LIBRARY DATA SET NAMES      00020000
+//*   LMOD(MEMBER)               DATA SET NAME FOR LOAD MODULE          00021000
+//*                                                                     00022000
+//*  CALLER MUST SUPPLY //COBOL.SYSIN DD ...                            00023000
+//*                                                                     00024000
+//*  CALLER MUST ALSO SUPPLY //COBOL.SYSLIB DD ... for COPY statements  00025000
+//*                                                                     00026000
+//COBOL  EXEC PGM=IGYCRCTL,REGION=0M                                    00027000
+//STEPLIB  DD  DSNAME=&LNGPRFX..SIGYCOMP,                               00028000
+//             DISP=SHR                                                 00029000
+//SYSPRINT DD  SYSOUT=*                                                 00030000
+//SYSIN    DD  DSN=&SYSUID..OPEN.COBOL(&MEMBER),DISP=SHR                00031000
+//SYSLIN   DD  DSNAME=&&LOADSET,UNIT=SYSALLDA,                          00032000
+//             DISP=(MOD,PASS),SPACE=(TRK,(3,3)),                       00033000
+//             DCB=(BLKSIZE=&SYSLBLK)                                   00034000
+//*         DD  DSN=&SYSUID..OPEN.COBOL,DISP=SHR                        00035000
+//SYSLIB   DD  DSN=&SYSUID..OPEN.COBOL,DISP=SHR                         00036000
+//SYSUT1   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                          00037000
+//SYSUT2   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                          00038000
+//SYSUT3   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                          00039000
+//SYSUT4   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                          00040000
+//SYSUT5   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                          00041000
+//SYSUT6   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                          00042000
+//SYSUT7   DD  UNIT=SYSALLDA,SPACE=(CYL,(1,1))                          00043000
+//** Additional datasets needed for 5.1 compiler **                     00044000
+//SYSUT8   DD UNIT=SYSDA,SPACE=(460,(350,100))                          00045000
+//SYSUT9   DD UNIT=SYSDA,SPACE=(460,(350,100))                          00046000
+//SYSUT10  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00047000
+//SYSUT11  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00047100
+//SYSUT12  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00047200
+//SYSUT13  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00047300
+//SYSUT14  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00047400
+//SYSUT15  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00047500
+//SYSMDECK DD UNIT=SYSDA,SPACE=(460,(350,100))                          00047600
+//** End of additional dataset needed for 5.1 compiler **               00047700
+//LKED   EXEC PGM=IEWBLINK,COND=(8,LT,COBOL),REGION=0M                  00047800
+//SYSLIB   DD  DSNAME=&LIBPRFX..SCEELKED,                               00047900
+//             DISP=SHR                                                 00048000
+//         DD  DSNAME=&LIBPRFX..SCEELKEX,                               00049000
+//             DISP=SHR                                                 00050000
+//         DD  DSNAME=&LMOD,                                            00050100
+//             DISP=SHR                                                 00050200
+//         DD  DISP=SHR,DSN=SYS2.DB2B10.RUNLIB                          00050300
+//         DD  DISP=SHR,DSN=&LDB2                                       00050400
+//SYSPRINT DD  SYSOUT=*                                                 00050500
+//SYSLIN   DD  DSNAME=&&LOADSET,DISP=(OLD,DELETE)                       00050600
+//         DD  DDNAME=SYSIN                                             00050700
+//SYSLMOD  DD  DSNAME=&LMOD(&MEMBER),DISP=SHR                           00050800
+//*SYSUT1   DD  UNIT=SYSALLDA,SPACE=(TRK,(10,10))

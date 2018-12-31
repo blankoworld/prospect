@@ -1,0 +1,9 @@
+//TRAIN04D    JOB SSY,'COMPI COB',                                      00010010
+//         MSGCLASS=X,NOTIFY=&SYSUID                                    00011000
+//*                                                                     00012000
+//*             COMPIL SOUS PROGRAMME                                   00012100
+//*                                                                     00012200
+//MESPROC  JCLLIB ORDER=(TRAIN04.OPEN.JCLLIB)                           00012304
+//*                                                                     00012404
+//COMPCALL EXEC PCODB,MEMBER=TLMPCON2                                   00012714
+//*

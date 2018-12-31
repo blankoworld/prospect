@@ -1,0 +1,75 @@
+//PCODB   PROC SOUT='*',REG=0M,NBLKS='50,5',                            00010000
+//             LCOB='COB520.SIGYCOMP',                                  00011000
+//             SCOB='CEE.SCEELKED',                                     00011100
+//             SCOBX='CEE.SCEELKEX',                                    00011200
+//             LDB2X='DB2B10.SDSNEXIT',                                 00011300
+//             LDB2='DB2B10.SDSNLOAD',                                  00011400
+//             LDB2R='SYS2.DB2B10.RUNLIB',                              00011500
+//*            LMOD='CICS.CICSTR01.BI04LOAD',                           00011602
+//             LMOD=&SYSUID..OPEN.LOADLIB,                              00011703
+//             MEMBER=                                                  00011802
+//*                                                                     00011902
+//*  Changed By Colman to add Customised SDSNEXIT (DSNHDECP)            00012002
+//*  and prevent DSNH527I messages...                                   00012102
+//*                                                                     00013000
+//*=====> PROCEDURE DE PREPARATION COBOL II/DB2   <==================== 00014000
+//*=====>      SANS BIND DU PACKAGE               <==================== 00015000
+//*                                                                     00016000
+//PC      EXEC PGM=DSNHPC,REGION=&REG,                                  00017000
+//        PARM=('HOST(IBMCOB)',APOST,APOSTSQL,SOURCE,                   00018000
+//        NOXREF,'SQL(DB2)','DEC(31)')                                  00019000
+//STEPLIB  DD  DISP=SHR,DSN=&LDB2X                                      00020000
+//         DD  DISP=SHR,DSN=&LDB2                                       00030000
+//SYSPRINT DD  SYSOUT=&SOUT                                             00040000
+//SYSTERM  DD  SYSOUT=&SOUT                                             00050000
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00060000
+//SYSUT2   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00070000
+//SYSIN    DD  DISP=SHR,DSN=&SYSUID..OPEN.COBOL(&MEMBER)                00080000
+//SYSLIB   DD  DISP=SHR,DSN=&SYSUID..OPEN.COBOL                         00090000
+//         DD  DISP=SHR,DSN=DB2B10.SDSNSAMP                             00100000
+//         DD  DISP=SHR,DSN=DB2B10.SRCLIB.DATA                          00110000
+//DBRMLIB  DD DISP=SHR,DSN=&SYSUID..OPEN.DBRM(&MEMBER)                  00120000
+//SYSCIN   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS)),DISP=(,PASS,DELETE)     00130000
+//*                                                                     00140000
+//C       EXEC PGM=IGYCRCTL,REGION=&REG,                                00150000
+// PARM='NODYNAM,OBJECT,RENT,APOST,MAP,XREF,OFFSET,OUTDD(IVPPRT1)'      00160000
+//*            PARM='NODYNAM,OBJECT,RENT,APOST,MAP,XREF'                00170000
+//STEPLIB  DD  DISP=SHR,DSN=&LCOB                                       00180000
+//SYSPRINT DD  SYSOUT=&SOUT                                             00190000
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00200000
+//SYSUT2   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00210000
+//SYSUT3   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00220000
+//SYSUT4   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00230000
+//SYSUT5   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00240000
+//SYSUT6   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00250000
+//SYSUT7   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS))                         00260000
+//** ADDITIONAL DATASETS NEEDED FOR 5.1 COMPILER **                     00270000
+//SYSUT8   DD UNIT=SYSDA,SPACE=(460,(350,100))                          00280000
+//SYSUT9   DD UNIT=SYSDA,SPACE=(460,(350,100))                          00290000
+//SYSUT10  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00300000
+//SYSUT11  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00310000
+//SYSUT12  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00320000
+//SYSUT13  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00330000
+//SYSUT14  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00340000
+//SYSUT15  DD UNIT=SYSDA,SPACE=(460,(350,100))                          00350000
+//SYSMDECK DD UNIT=SYSDA,SPACE=(460,(350,100))                          00360000
+//** END OF ADDITIONAL DATASET NEEDED FOR 5.1 COMPILER **               00361000
+//SYSIN    DD  DSN=*.PC.SYSCIN,DISP=(OLD,DELETE)                        00362000
+//SYSLIN   DD  UNIT=SYSDA,SPACE=(3200,(&NBLKS)),DISP=(,PASS,DELETE)     00363000
+//SYSLIB   DD  DISP=SHR,DSN=&SYSUID..OPEN.COBOL                         00364000
+//         DD  DISP=SHR,DSN=FORM.INIT.BI04.COBOL                        00365001
+//         DD  DISP=SHR,DSN=DB2B10.SRCLIB.DATA                          00366000
+//*                                                                     00367000
+//L       EXEC PGM=IEWL,REGION=&REG,COND=(4,LT,C),                      00368000
+//             PARM='XREF,LIST,RMODE=ANY,AMODE=31'                      00369000
+//SYSPRINT DD  SYSOUT=&SOUT                                             00370000
+//SYSUT1   DD  UNIT=SYSDA,SPACE=(1024,(&NBLKS))                         00380000
+//SYSLIN   DD  DSN=*.C.SYSLIN,DISP=(OLD,DELETE,DELETE)                  00390000
+//         DD  DDNAME=SYSIN                                             00400000
+//SYSLIB   DD  DISP=SHR,DSN=&LMOD                                       00410000
+//         DD  DISP=SHR,DSN=&SCOB                                       00420000
+//         DD  DISP=SHR,DSN=&SCOBX                                      00430000
+//         DD  DISP=SHR,DSN=&LDB2R                                      00440000
+//         DD  DISP=SHR,DSN=&LDB2                                       00450000
+//SYSLMOD  DD  DISP=SHR,DSN=&LMOD(&MEMBER)                              00460000
+//*

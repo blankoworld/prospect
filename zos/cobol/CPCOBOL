@@ -1,0 +1,9 @@
+//THI      JOB SSY,'COMPI COB', 
+//         MSGCLASS=X,NOTIFY=&SYSUID
+//*                                  
+//*             COMPIL SOUS PROGRAMME 
+//*                                  
+//MESPROC  JCLLIB ORDER=(TRAIN04.OPEN.JCLLIB)  
+//*                                           
+//COMPCALL EXEC PCOBOL,MEMBER=TLMBPGM3       
+//*
