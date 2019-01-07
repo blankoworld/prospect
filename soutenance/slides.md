@@ -24,10 +24,10 @@ date: 17 décembre 2018
 
 :::::::::::::: {.columns}
 ::: {.column width="50%"}
-![collaborateurs](3775.png){width=335px}
+![collaborateurs](3775.png){height=250px}
 :::
 ::: {.column width="50%"}
-![CA](CA.png){width=350px}
+![CA](CA.png){height=250px}
 :::
 ::::::::::::::
 
@@ -50,7 +50,7 @@ date: 17 décembre 2018
 
 # Solution
 
-![Flux](flux.png)
+![Flux](flux.png){height=250px}
 
 # Planning
 
